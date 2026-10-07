@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CXSA Exam Playbook</title>
+<meta name="description" content="CXSA Exam Playbook — Therap BD Customer Experience Strategy & Analytics. Learn. Analyze. Practice. Perform.">
+<style>
+:root{
+  --bg:#F4F6F9; --surface:#FFFFFF; --sunk:#EEF1F5;
+  --ink:#18212D; --ink2:#465263; --ink3:#6B7686; --line:#DFE4EB;
+  --accent:#1F5FAD; --accent-ink:#174A87; --accent-soft:#EAF1FA;
+  --mark:#FFE27A; --mark-soft:#FFF6CF;
+  --ok:#1E7A46; --ok-soft:#E7F5EC; --bad:#B42318; --bad-soft:#FDECEA;
+  --tip:#0F6B5C; --tip-soft:#E6F4F1; --prac:#5B3FA8; --prac-soft:#F0ECFA;
+  --warn:#8A5A00; --warn-soft:#FFF4DC;
+  --r:12px; --hh:58px;
+  --font: "Avenir Next","Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11161D; --surface:#18202A; --sunk:#1F2934;
+    --ink:#E8EDF3; --ink2:#B4BFCC; --ink3:#8B97A6; --line:#2B3744;
+    --accent:#7FB0F0; --accent-ink:#A6C8F5; --accent-soft:#1C2B3E;
+    --mark:#6B5A12; --mark-soft:#2B2714;
+    --ok:#6FCF97; --ok-soft:#16291F; --bad:#F28B82; --bad-soft:#331C1A;
+    --tip:#5FC9B5; --tip-soft:#14282A; --prac:#B9A4F2; --prac-soft:#221D36;
+    --warn:#E8B85A; --warn-soft:#2D2412;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11161D; --surface:#18202A; --sunk:#1F2934;
+  --ink:#E8EDF3; --ink2:#B4BFCC; --ink3:#8B97A6; --line:#2B3744;
+  --accent:#7FB0F0; --accent-ink:#A6C8F5; --accent-soft:#1C2B3E;
+  --mark:#6B5A12; --mark-soft:#2B2714;
+  --ok:#6FCF97; --ok-soft:#16291F; --bad:#F28B82; --bad-soft:#331C1A;
+  --tip:#5FC9B5; --tip-soft:#14282A; --prac:#B9A4F2; --prac-soft:#221D36;
+  --warn:#E8B85A; --warn-soft:#2D2412;
+}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+:root{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--hh) + 12px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--accent-ink)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:8px;top:-60px;background:var(--surface);padding:8px 12px;border-radius:8px;z-index:100}
+.skip:focus{top:8px}
+
+/* Header */
+.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:6px;
+  min-height:var(--hh);padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top,0px));
+  background:var(--surface);border-bottom:1px solid var(--line)}
+.brand{flex:1;min-width:0;line-height:1.2}
+.brand b{display:block;font-size:13.5px;letter-spacing:.06em;font-weight:750}
+.brand small{display:block;font-size:12px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pos{font-size:12.5px;color:var(--ink2);background:var(--sunk);padding:4px 10px;border-radius:999px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ib{display:inline-grid;place-items:center;width:42px;height:42px;border:0;background:transparent;border-radius:10px;cursor:pointer;color:var(--ink2);flex:none}
+.ib:hover{background:var(--sunk);color:var(--ink)}
+.ib svg{width:21px;height:21px}
+.qbtn{text-decoration:none;color:var(--ink);display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:13.5px;font-weight:600;white-space:nowrap}
+.qbtn:hover{border-color:var(--accent)}
+.qbtn[aria-current="page"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rp{position:sticky;top:calc(var(--hh) + env(safe-area-inset-top,0px));z-index:39;height:3px;background:transparent}
+.rp i{display:block;height:100%;width:0;background:var(--accent)}
+@media (max-width:520px){.pos{display:none}.qbtn span{display:none}.qbtn{width:40px;padding:0;justify-content:center}}
+
+/* Layout */
+.wrap{display:flex;align-items:flex-start}
+.side{position:fixed;inset:0 auto 0 0;width:min(86vw,300px);z-index:60;background:var(--bg);border-right:1px solid var(--line);
+  transform:translateX(-102%);transition:transform .22s ease;overflow-y:auto;padding:16px 12px calc(24px + env(safe-area-inset-bottom,0px));padding-top:calc(16px + env(safe-area-inset-top,0px))}
+.side.open{transform:none}
+.scrim{position:fixed;inset:0;background:rgba(10,15,25,.38);z-index:55}
+.side-head{padding:4px 8px 14px;border-bottom:1px solid var(--line);margin-bottom:10px}
+.side-head h2{margin:0;font-size:1.05rem}
+.side-head p{margin:2px 0 0;font-size:12.5px;color:var(--ink3)}
+.side-head .tag-line{margin-top:8px;font-size:12.5px;color:var(--accent-ink);font-weight:600}
+.ovp{margin:12px 8px 6px;font-size:12.5px;color:var(--ink3)}
+.ovp .bar{height:6px;background:var(--sunk);border-radius:99px;margin-top:6px;overflow:hidden}
+.ovp .bar i{display:block;height:100%;background:var(--ok);width:0}
+.nav-group{margin:12px 0 4px 10px;font-size:12px;color:var(--ink3);font-weight:600}
+.side a.nl{display:flex;gap:10px;align-items:center;min-height:42px;padding:6px 10px;border-radius:9px;text-decoration:none;color:var(--ink2);font-size:14.5px}
+.side a.nl:hover{background:var(--sunk);color:var(--ink)}
+.side a.nl[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:650}
+.side a.nl .n{width:24px;font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--ink3)}
+.side a.nl .d{margin-left:auto;color:var(--ok);font-size:13px}
+.side .close{position:absolute;right:8px;top:calc(8px + env(safe-area-inset-top,0px))}
+@media (min-width:1024px){
+  .side{position:sticky;top:calc(var(--hh) + 3px + env(safe-area-inset-top,0px));height:calc(100vh - var(--hh) - 3px - env(safe-area-inset-top,0px));transform:none;transition:none;width:290px;flex:none;padding-top:16px;z-index:10}
+  .menu-btn,.side .close,.scrim{display:none!important}
+}
+main{flex:1;min-width:0;padding:22px 18px calc(80px + env(safe-area-inset-bottom,0px));background:var(--surface);min-height:calc(100vh - var(--hh));font-size:var(--fs,17px);line-height:var(--lh,1.72)}
+.col{max-width:42em;margin:0 auto}
+body.lock{overflow:hidden}
+@media (min-width:700px){main{padding:40px 40px 110px}}
+
+/* Typography */
+.eyebrow{margin:0;color:var(--accent-ink);font-weight:650;font-size:.8em;font-variant-numeric:tabular-nums}
+h1{font-size:1.85em;line-height:1.18;letter-spacing:-.018em;margin:.2em 0 .4em;font-weight:760;outline:none}
+h2{font-size:1.32em;line-height:1.3;margin:0 0 .55em;letter-spacing:-.008em;font-weight:720}
+h3{font-size:1.06em;line-height:1.4;margin:1.3em 0 .4em;font-weight:700}
+p{margin:.65em 0}
+.lede{color:var(--ink2);font-size:1.06em;margin-bottom:1.1em}
+ul,ol{padding-left:1.3em;margin:.55em 0}
+li{margin:.35em 0}
+.muted{color:var(--ink3)}
+.small{font-size:.92rem}
+hr{border:0;border-top:1px solid var(--line);margin:22px 0}
+mark,.hl{background:linear-gradient(transparent 38%,var(--mark) 38%,var(--mark) 88%,transparent 88%);color:inherit;padding:0 2px}
+
+/* Jump nav */
+.jump{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;margin:0 0 6px;scrollbar-width:none}
+.jump::-webkit-scrollbar{display:none}
+.jump a{flex:none;font-size:13px;text-decoration:none;color:var(--ink2);border:1px solid var(--line);background:var(--surface);padding:6px 11px;border-radius:999px;white-space:nowrap}
+.jump a:hover{border-color:var(--accent);color:var(--accent-ink)}
+
+/* Concept sections — read like a book */
+.c{position:relative;padding:34px 0 8px;margin:0;border-top:1px solid var(--line)}
+section > article.c:first-of-type,.jump + article.c{border-top:0;padding-top:10px}
+.c.box,#ch-11 .c{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 16px;margin:14px 0}
+@media (min-width:700px){.c.box,#ch-11 .c{padding:22px 24px}}
+.c > h2,.c > h3{padding-right:46px}
+.c > h3:first-child,.c > .bm + h3,.c > .bm + h2{margin-top:0}
+[id]{scroll-margin-top:calc(var(--hh) + 16px)}
+.c.flash{animation:flash 1.6s ease}
+@keyframes flash{0%{background:var(--accent-soft)}100%{background:transparent}}
+.bm{position:absolute;top:28px;right:-6px;width:40px;height:40px;border-radius:10px;border:0;background:transparent;color:var(--ink3);cursor:pointer;display:grid;place-items:center}
+section > article.c:first-of-type > .bm,.jump + article.c > .bm{top:4px}
+.bm:hover{background:var(--sunk);color:var(--ink)}
+.bm svg{width:19px;height:19px}
+.bm[aria-pressed="true"]{color:#C58A00}
+.bm[aria-pressed="true"] svg{fill:currentColor}
+mark.sh{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
+
+/* Labelled blocks — quiet by default */
+.b{--k:var(--ink3);margin:16px 0;padding:0 0 0 14px;border-left:2px solid var(--k)}
+.b > :last-child{margin-bottom:0}
+.b > p:first-of-type{margin-top:0}
+.lbl{display:block;font-size:.76em;font-weight:700;color:var(--k);margin-bottom:3px;letter-spacing:.01em}
+.b.m{--k:var(--accent-ink);border-left:0;padding-left:0}
+.b.ex{--k:var(--ink3)}
+.b.t{--k:var(--tip)}
+.b.x{--k:var(--bad)}
+.b.f{--k:var(--accent);border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 16px}
+.b.r,.b.p,.b.w,.b.ok{border-left:0;border-radius:10px;padding:11px 14px}
+.b.r{--k:var(--warn);background:var(--mark-soft)}
+.b.p{--k:var(--prac);background:var(--prac-soft)}
+.b.w{--k:var(--warn);background:var(--warn-soft)}
+.b.ok{--k:var(--ok);background:var(--ok-soft)}
+.vs .b{border-left:0;border-radius:10px;padding:11px 14px;margin:0}
+.vs .b.x{background:var(--bad-soft)}
+.fx{font-size:1.14em;font-weight:680;line-height:1.45;padding:2px 0;font-variant-numeric:tabular-nums}
+.fx .eq{color:var(--ink3);font-weight:500}
+.work{font-variant-numeric:tabular-nums}
+.b.r p{font-weight:600}
+
+/* Source tags */
+.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;vertical-align:2px;margin-right:4px;white-space:nowrap}
+.tag.off{background:var(--accent-soft);color:var(--accent-ink)}
+.tag.rep{background:var(--warn-soft);color:var(--warn)}
+.tag.prac{background:var(--prac-soft);color:var(--prac)}
+.tag.est{background:var(--sunk);color:var(--ink2)}
+
+/* Flow diagrams */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0}
+.flow span{background:var(--accent-soft);color:var(--accent-ink);font-weight:650;font-size:.88rem;padding:6px 11px;border-radius:8px}
+.flow i{font-style:normal;color:var(--ink3);font-size:.9rem}
+.steps{list-style:none;padding:0;margin:12px 0;counter-reset:s}
+.steps > li{counter-increment:s;position:relative;padding:0 0 14px 44px;margin:0}
+.steps > li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.88rem}
+.steps > li::after{content:"";position:absolute;left:14.5px;top:32px;bottom:2px;width:1px;background:var(--line)}
+.steps > li:last-child::after{display:none}
+.steps > li > b{display:block}
+
+/* Tables */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--sunk);font-weight:680;font-size:.86rem;color:var(--ink2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* Details */
+details{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--surface)}
+details > summary{list-style:none;cursor:pointer;padding:11px 40px 11px 14px;min-height:44px;font-weight:650;position:relative;border-radius:10px}
+details > summary::-webkit-details-marker{display:none}
+details > summary::after{content:"";position:absolute;right:16px;top:50%;width:8px;height:8px;border-right:2px solid var(--ink3);border-bottom:2px solid var(--ink3);transform:translateY(-70%) rotate(45deg);transition:transform .15s}
+details[open] > summary::after{transform:translateY(-30%) rotate(-135deg)}
+details > summary:hover{background:var(--sunk)}
+details > .in{padding:2px 14px 14px}
+details.reveal{border-style:dashed}
+details.reveal > summary{color:var(--accent-ink)}
+
+/* Grids & misc */
+.grid2{display:grid;gap:10px}
+@media (min-width:640px){.grid2{grid-template-columns:1fr 1fr}}
+.vs .b{margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chips span{font-size:.86rem;background:var(--sunk);padding:4px 10px;border-radius:999px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:650;font-size:.95rem;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.pri:hover{background:var(--accent-ink)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.sm{min-height:38px;padding:0 12px;font-size:.88rem}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.day{border-left:3px solid var(--accent)}
+.day h3{margin-top:0}
+blockquote{margin:10px 0;padding:8px 14px;border-left:3px solid var(--line);color:var(--ink2)}
+.prompt{background:var(--sunk);border-radius:9px;padding:10px 12px;margin:8px 0;font-size:.95rem}
+.chart{width:100%;height:auto;display:block;margin:8px 0}
+dl.defs{margin:8px 0}
+dl.defs div{display:grid;grid-template-columns:1fr;gap:2px;padding:9px 0;border-bottom:1px solid var(--line)}
+dl.defs div:last-child{border-bottom:0}
+dl.defs dt{font-weight:720}
+dl.defs dd{margin:0;color:var(--ink2)}
+@media (min-width:640px){dl.defs div{grid-template-columns:150px 1fr;gap:12px}}
+
+/* Pager */
+.pager{max-width:740px;margin:28px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pager a{display:flex;flex-direction:column;justify-content:center;min-height:64px;padding:10px 14px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);text-decoration:none;color:var(--ink)}
+.pager a:hover{border-color:var(--accent)}
+.pager a small{color:var(--ink3);font-size:12px}
+.pager a.next{text-align:right;grid-column:2}
+.pager a span{font-weight:650;font-size:.95rem;line-height:1.3}
+.donebar{max-width:740px;margin:26px auto 0;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.donebar p{margin:0;font-size:.92rem;color:var(--ink2)}
+.btn.done{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+
+/* Search */
+.sov{position:fixed;inset:0;z-index:80;background:rgba(10,15,25,.45);display:flex;justify-content:center;align-items:flex-start;padding:calc(12px + env(safe-area-inset-top,0px)) 12px 12px}
+.spanel{width:100%;max-width:640px;background:var(--surface);border-radius:16px;border:1px solid var(--line);margin-top:7vh;display:flex;flex-direction:column;max-height:78vh;overflow:hidden;box-shadow:0 18px 50px rgba(10,15,25,.25)}
+.sbox{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 16px;border-bottom:1px solid var(--line);color:var(--ink3)}
+.sbox input{flex:1;min-width:0;border:0;background:transparent;font-size:17px;padding:12px 2px;outline:none;color:var(--ink)}
+.sbox input::-webkit-search-cancel-button{display:none}
+.sres{overflow-y:auto;padding:6px 8px 10px;overscroll-behavior:contain;flex:1}
+.scount{margin:8px 8px 2px;font-size:12.5px;color:var(--ink3)}
+.sgh{position:sticky;top:-6px;background:var(--surface);padding:10px 8px 4px;font-size:12.5px;font-weight:700;color:var(--accent-ink);z-index:1}
+.sitem{display:block;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--ink);border:1px solid transparent}
+.sitem:hover,.sitem.on{background:var(--accent-soft);border-color:var(--accent-soft)}
+.sitem b{display:block;font-size:15.5px;line-height:1.35}
+.sitem span{display:block;font-size:13.5px;line-height:1.5;color:var(--ink2);margin-top:2px}
+.sitem mark{background:var(--mark);padding:0 1px;border-radius:2px}
+.shint{padding:10px 8px;color:var(--ink3);font-size:14px}
+.shint p{margin:6px 0 8px;font-weight:650;font-size:12.5px}
+.shint .chips button{border:1px solid var(--line);background:var(--surface);border-radius:999px;min-height:38px;padding:0 14px;cursor:pointer;font-size:14px;color:var(--ink)}
+.shint .chips button:hover{border-color:var(--accent)}
+.sfoot{border-top:1px solid var(--line);padding:9px 14px;font-size:12px;color:var(--ink3);display:flex;gap:14px;flex-wrap:wrap}
+.sfoot kbd{font:inherit;font-weight:700;background:var(--sunk);border-radius:5px;padding:1px 6px}
+@media (max-width:600px){.sov{padding:0}.spanel{margin:0;max-width:none;max-height:none;height:100%;border-radius:0;border:0;padding-top:env(safe-area-inset-top,0px)}.sfoot{display:none}}
+
+/* Reading settings */
+.rpanel{position:fixed;top:calc(var(--hh) + 8px + env(safe-area-inset-top,0px));right:10px;width:min(320px,calc(100vw - 20px));background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;z-index:70;box-shadow:0 14px 40px rgba(10,15,25,.18)}
+.rpanel p{margin:10px 0 6px;font-size:13px;font-weight:650;color:var(--ink2)}
+.rpanel p:first-child{margin-top:0}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;background:var(--sunk);padding:4px;border-radius:10px}
+.seg button{min-height:40px;border:0;border-radius:8px;background:transparent;cursor:pointer;font-weight:600;font-size:14px;color:var(--ink2)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.92rem;z-index:90;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+
+/* Mock exam */
+.mbar{position:sticky;top:calc(var(--hh) + 3px + env(safe-area-inset-top,0px));z-index:20;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:10px 0 12px}
+.timer{font-size:1.25rem;font-weight:760;font-variant-numeric:tabular-nums;min-width:4.2em}
+.timer.low{color:var(--bad)}
+.mstat{font-size:.88rem;color:var(--ink2)}
+.mprog{flex-basis:100%;height:5px;background:var(--sunk);border-radius:99px;overflow:hidden}
+.mprog i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px;padding:4px 0}
+.qgrid button{height:40px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:.86rem;font-weight:650;font-variant-numeric:tabular-nums}
+.qgrid button.ans{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent-ink)}
+.qgrid button.full{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.qgrid button.pt{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.qgrid button.zero{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.qgrid button.cur{outline:2px solid var(--ink);outline-offset:1px}
+.qgrid .sec{grid-column:1/-1;font-size:12px;color:var(--ink3);font-weight:650;margin-top:4px}
+.qmeta{font-size:.86rem;color:var(--ink3);margin-bottom:4px}
+.qtext{font-size:1.06rem;font-weight:620;margin:4px 0 12px}
+.ctx{background:var(--sunk);border-radius:10px;padding:10px 12px;margin:8px 0 12px;font-size:.95rem}
+.ctx .tw{margin:4px 0;background:var(--surface)}
+.opts{display:grid;gap:8px;margin:8px 0}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;min-height:46px;background:var(--surface)}
+.opt:hover{border-color:var(--accent)}
+.opt input{margin-top:4px;accent-color:var(--accent);width:18px;height:18px;flex:none}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.part{display:grid;gap:4px;margin:10px 0}
+.part label{font-weight:600;font-size:.95rem}
+.part .in-row{display:flex;gap:8px;align-items:center}
+.part input[type=text],.part select,.mrow select{min-height:44px;border:1px solid var(--line);border-radius:9px;padding:0 12px;background:var(--surface);width:100%;max-width:220px}
+.part .fb{font-size:.9rem;font-weight:650}
+.fb.y{color:var(--ok)} .fb.n{color:var(--bad)}
+.mrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.mrow:last-child{border-bottom:0}
+textarea{width:100%;min-height:130px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface);line-height:1.5;resize:vertical}
+.wc{font-size:.85rem;color:var(--ink3);margin-top:4px}
+.ansbox{margin-top:14px}
+.selfmark{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.selfmark button{min-width:46px;min-height:42px;border-radius:9px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:700}
+.selfmark button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.qnav{display:flex;justify-content:space-between;gap:8px;margin-top:16px}
+.res-big{font-size:2.4rem;font-weight:780;line-height:1;font-variant-numeric:tabular-nums}
+.secbar{display:grid;grid-template-columns:minmax(0,1fr) 70px;gap:8px;align-items:center;font-size:.9rem;margin:6px 0}
+.secbar .bar{grid-column:1/-1;height:6px;background:var(--sunk);border-radius:99px;overflow:hidden}
+.secbar .bar i{display:block;height:100%;background:var(--accent)}
+
+/* Checklist */
+.check{list-style:none;padding:0;margin:8px 0}
+.check li{margin:0;border-bottom:1px solid var(--line)}
+.check li:last-child{border-bottom:0}
+.check label{display:flex;gap:12px;align-items:center;min-height:48px;padding:6px 2px;cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--ok);flex:none}
+.check input:checked + span{color:var(--ink3);text-decoration:line-through}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media print{.top,.side,.rp,.pager,.donebar,.bm{display:none!important}main{padding:0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <button class="ib menu-btn" id="menuBtn" aria-label="Open chapter menu" aria-controls="side" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <div class="brand"><b>CXSA EXAM PLAYBOOK</b><small>Customer Experience Strategy &amp; Analytics</small></div>
+  <span class="pos" id="pos" aria-live="polite">Chapter 1 of 14</span>
+  <button class="ib" id="readBtn" aria-label="Reading settings" aria-expanded="false" aria-controls="readPanel"><span style="font-weight:750;font-size:15px;letter-spacing:-.02em">Aa</span></button>
+  <button class="ib" id="searchBtn" aria-label="Search the playbook (press /)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+  </button>
+  <a class="qbtn" id="quickBtn" href="#v-quick" aria-label="Quick Revision">⚡<span>Quick Revision</span></a>
+</header>
+<div class="rpanel" id="readPanel" hidden role="dialog" aria-label="Reading settings">
+  <p>Text size</p><div class="seg" data-k="fs"><button data-v="0">A−</button><button data-v="1">A</button><button data-v="2">A+</button><button data-v="3">A++</button></div>
+  <p>Line spacing</p><div class="seg" data-k="lh"><button data-v="0">Compact</button><button data-v="1">Comfortable</button><button data-v="2">Relaxed</button></div>
+  <p>Theme</p><div class="seg" data-k="th"><button data-v="auto">Auto</button><button data-v="light">Light</button><button data-v="dark">Dark</button></div>
+</div>
+<div class="rp" aria-hidden="true"><i id="rpbar"></i></div>
+
+<div class="wrap">
+<nav class="side" id="side" aria-label="Chapters">
+  <button class="ib close" id="closeBtn" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="side-head">
+    <h2>CXSA Exam Playbook</h2>
+    <p>Therap BD — Customer Experience Strategy &amp; Analytics</p>
+    <p class="tag-line">Learn. Analyze. Practice. Perform.</p>
+  </div>
+  <div class="nav-group">Study modes</div>
+  <a class="nl" href="#v-quick" data-id="v-quick"><span class="n">⚡</span>Quick Revision</a>
+  <a class="nl" href="#v-mine" data-id="v-mine"><span class="n">★</span>My Revision <span class="d" id="bmCount"></span></a>
+  <div class="ovp"><span id="ovpText">0 of 14 chapters complete</span><div class="bar"><i id="ovpBar"></i></div></div>
+  <div class="nav-group">Chapters</div>
+  <div id="navList"></div>
+</nav>
+<div class="scrim" id="scrim" hidden></div>
+
+<main id="main" tabindex="-1">
+<div class="col">
+
+<!-- ============ CH 1 ============ -->
+<section class="ch" id="ch-1" data-title="Exam Overview" hidden>
+<p class="eyebrow">Chapter 01</p>
+<h1>Exam Overview</h1>
+<p class="lede">What the CXSA role is, what the written test is likely to cover, and how to use the four days before 11 October.</p>
+
+<article class="c" id="sources">
+<h2>How to read this playbook</h2>
+<p>Every claim is labelled by where it comes from, so you always know how much to trust it.</p>
+<p><span class="tag off">Official</span> From Therap BD's CXSA career page, as quoted in the preparation guide.</p>
+<p><span class="tag rep">Candidate report</span> From 2026 candidate reports about Therap written assessments. Useful, but not verified by Therap.</p>
+<p><span class="tag prac">Practice</span> Questions written for preparation. They are not previous or leaked Therap questions.</p>
+<p><span class="tag est">Estimate</span> The preparation guide author's own judgement, e.g. topic priority.</p>
+<div class="b w"><span class="lbl">Important</span><p>The source research found <b>no publicly available previous CXSA written paper</b>. Nothing in this playbook is an actual past question.</p></div>
+</article>
+
+<article class="c" id="about-cxsa">
+<h2>What CXSA is</h2>
+<p><span class="tag off">Official</span> The CXSA team works between technical data and user experience. It uses customer-interaction data, automated messaging and flows, Salesforce CRM and email-marketing systems, GA4, Looker Studio and AI (Gemini) to improve customer satisfaction, adoption and loyalty.</p>
+<p>The role combines <b>customer experience + data analysis + CRM + marketing/support data + automation + AI + logical problem solving</b>. The official description stresses logical problem-solving, attention to detail, data analysis, the customer journey and AI/technology adoption. An external job listing for the role also mentions Excel, Google Sheets, data analysis and Looker Studio.</p>
+<div class="b m"><span class="lbl">In simple words</span>
+<div class="flow"><span>Read the data</span><i>→</i><span>Find the customer problem</span><i>→</i><span>Understand why</span><i>→</i><span>Design a solution</span><i>→</i><span>Automate / communicate</span><i>→</i><span>Measure the result</span></div></div>
+</article>
+
+<article class="c" id="likely-tests">
+<h2>What the exam is likely to test</h2>
+<p><span class="tag rep">Candidate report</span> A 2026 written-assessment report mentioned <b>data analysis, summarization, prompt engineering, situation-based analytical questions, English proficiency</b> and a <b>short maths section including ratio questions</b>. The same candidate mentioned maths on digital-marketing metrics and explaining a graph.</p>
+<p><span class="tag rep">Candidate report</span> Another report says some Therap written assessments test <b>analytical thinking, problem solving, written communication, English, logical reasoning and attention to detail</b>.</p>
+<h3>Topic priority <span class="tag est">Estimate</span></h3>
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>Data interpretation</td><td>★★★★★</td></tr>
+<tr><td>Analytical reasoning</td><td>★★★★★</td></tr>
+<tr><td>Situation-based problem solving</td><td>★★★★★</td></tr>
+<tr><td>English / comprehension</td><td>★★★★</td></tr>
+<tr><td>Basic mathematics</td><td>★★★★</td></tr>
+<tr><td>CX fundamentals</td><td>★★★★</td></tr>
+<tr><td>AI / prompt engineering</td><td>★★★★</td></tr>
+<tr><td>CRM / GA4 / analytics tools</td><td>★★★</td></tr>
+<tr><td>Advanced technical knowledge</td><td>★★</td></tr>
+</tbody></table></div>
+<div class="b r"><span class="lbl">Remember</span><p>Data + Logic + English + CX thinking + Basic maths + AI. You do not need to be a Salesforce or GA4 expert — you need to turn data into a sensible conclusion.</p></div>
+</article>
+
+<article class="c" id="strategy">
+<h2>Exam strategy</h2>
+<p>For every analytical or written question, follow one pattern:</p>
+<div class="flow"><span>Data</span><i>→</i><span>Problem</span><i>→</i><span>Analysis</span><i>→</i><span>Hypothesis</span><i>→</i><span>Action</span><i>→</i><span>Measurement</span></div>
+<div class="grid2 vs">
+<div class="b x"><span class="lbl">Don't</span><p>Give only an opinion (“improve marketing”). Jump from one number to a conclusion. Blame a team without evidence.</p></div>
+<div class="b ok"><span class="lbl">Do</span><p>Show calculations. Separate what the data proves from what you suspect. End with an action and how you would measure it.</p></div>
+</div>
+<h3>Time rules</h3>
+<ul>
+<li>Spend no more than ~2 minutes on a single MCQ.</li>
+<li>Write calculation steps — partial marks are common.</li>
+<li>For analytical answers: <b>evidence → reasoning → action</b>.</li>
+</ul>
+<h3>Five abilities the exam rewards</h3>
+<ol>
+<li>Read data</li><li>Calculate basic metrics</li><li>Explain what the data means</li><li>Separate evidence from assumptions</li><li>Recommend an action based on the evidence</li>
+</ol>
+<div class="b r"><span class="lbl">Remember</span><p>Don't jump from a number to a conclusion. First ask: “What does the data actually tell me, and what else do I need to investigate?”</p></div>
+</article>
+
+<article class="c" id="top-questions">
+<h2>High-priority questions</h2>
+<p><span class="tag prac">Practice</span> These come from the role description and reported assessment patterns, not from a real paper.</p>
+<details><summary>15 questions to practise if time is short</summary><div class="in"><ol>
+<li>What is Customer Experience?</li><li>What is the difference between CX and Customer Service?</li><li>What is a customer journey?</li><li>What is CRM?</li><li>What is NPS?</li><li>What is CSAT?</li><li>What is customer churn?</li><li>Calculate conversion rate from a dataset.</li><li>Calculate CTR from campaign data.</li><li>Interpret a graph and identify the key trend.</li><li>Website traffic increased but conversion decreased — why?</li><li>How would you find the root cause of increasing complaints?</li><li>What is prompt engineering?</li><li>Write a prompt to analyze customer feedback.</li><li>Summarize a business/customer-related paragraph.</li></ol></div></details>
+<details><summary>10 questions to answer without thinking</summary><div class="in"><ol>
+<li>What is CX?</li><li>CX vs customer service?</li><li>What is NPS?</li><li>What is CSAT?</li><li>What is churn?</li><li>How do you calculate conversion rate?</li><li>Traffic ↑ but conversion ↓ — what do you investigate?</li><li>Complaints ↑ — how do you find the root cause?</li><li>What is prompt engineering?</li><li>Correlation vs causation?</li></ol></div></details>
+<details><summary>Full list of 35 likely practice questions by area</summary><div class="in">
+<p><b>CX</b> — What is CX? · CX vs customer service · customer journey · retention · churn · NPS · CSAT · CES · why feedback matters.</p>
+<p><b>Analytics</b> — conversion rate · CTR · CAC · CLV · retention rate · identifying a declining conversion rate · correlation vs causation · analysing a sudden conversion drop.</p>
+<p><b>Data</b> — percentage increase · percentage decrease · ratio · average · graph interpretation · trend · anomaly · comparing two campaigns.</p>
+<p><b>AI</b> — prompt engineering · what makes a good prompt · writing a feedback-analysis prompt · how AI improves CX · risks of AI analysis.</p>
+<p><b>Situations</b> — traffic ↑ conversion ↓ · complaints +30% · high open rate, low CTR · feature with high usage but low satisfaction · customers leaving after onboarding.</p>
+</div></details>
+</article>
+
+<article class="c" id="plan">
+<h2>4-day preparation plan</h2>
+<p class="muted small">Based on the source plan: today is 7 October and the written exam is on 11 October.</p>
+<div class="b day ex"><h3>Day 1 · 7 Oct — CX fundamentals</h3><p>Customer experience, customer journey, CRM, NPS, CSAT, CES, retention, churn, conversion, segmentation. Then practise 20 basic questions.</p><div class="row"><a class="btn sm" href="#ch-2">Chapter 2</a><a class="btn sm" href="#ch-3">Chapter 3</a></div></div>
+<div class="b day ex"><h3>Day 2 · 8 Oct — Analytics</h3><p>Percentage, ratio, average, conversion rate, CTR, open rate, CAC, CLV, retention, churn. Then 5–10 graph/table questions.</p><div class="row"><a class="btn sm" href="#ch-3">Chapter 3</a><a class="btn sm" href="#ch-4">Chapter 4</a></div></div>
+<div class="b day ex"><h3>Day 3 · 9 Oct — Analytical thinking + AI</h3><p>Root cause analysis, 5 Whys, A/B testing, correlation vs causation, data cleaning, prompt engineering, AI in CX. Then solve 10 scenarios.</p><div class="row"><a class="btn sm" href="#ch-5">Chapter 5</a><a class="btn sm" href="#ch-7">Chapter 7</a><a class="btn sm" href="#ch-10">Chapter 10</a></div></div>
+<div class="b day ex"><h3>Day 4 · 10 Oct — Full mock exam</h3><p>Take the 90-minute mock with the timer, then review every mistake. Finish with Rapid Revision and the checklist.</p><div class="row"><a class="btn sm" href="#ch-11">Mock exam</a><a class="btn sm" href="#ch-13">Rapid Revision</a></div></div>
+</article>
+
+<article class="c" id="interview">
+<h2>Beyond the written test</h2>
+<p><span class="tag rep">Candidate report</span> A recent candidate reported being asked <b>“What do you know about Therap?”</b> at interview.</p>
+<p>According to the source guide, Therap is a software company, with Therap (BD) Ltd. operating in Bangladesh, and its products support the operational needs of human-services and healthcare-related organizations. <b>Verify this on Therap's official website before the interview</b>, and check:</p>
+<ul><li>What Therap does and who it builds products for</li><li>Its core products</li><li>Why a CXSA team matters to the company</li><li>Why you are interested in this role</li></ul>
+<details><summary>Sample answer: “Why CXSA?”</summary><div class="in">
+<p>“I am interested in CXSA because it combines customer experience, data analysis and problem solving. I enjoy understanding user behavior and turning data into actionable insights. I also find the combination of technology, analytics and customer-centric thinking very interesting. I believe this role would allow me to develop both my analytical and business skills while contributing to a meaningful customer experience.”</p>
+<p class="muted small">Customize it with your own background.</p></div></details>
+</article>
+</section>
+
+<!-- ============ CH 2 ============ -->
+<section class="ch" id="ch-2" data-title="CX Fundamentals" hidden>
+<p class="eyebrow">Chapter 02</p>
+<h1>CX Fundamentals</h1>
+<p class="lede">The vocabulary every other chapter depends on. Each concept: meaning, example, memory hook, and how it could be asked.</p>
+
+<article class="c" id="cx">
+<h2>Customer Experience (CX)</h2>
+<div class="b m"><span class="lbl">What it means</span><p>The customer's overall perception and experience across <b>every interaction</b> with a company, product or service throughout the customer journey — not just customer support.</p></div>
+<div class="b ex"><span class="lbl">Example</span><p>Google search → website → sign-up → welcome email → product trial → support → purchase → renewal. The whole chain is the customer experience.</p></div>
+<p><b>Goals of good CX</b> — customers can understand the product easily, finish tasks quickly, face fewer problems, get the right information at the right time, receive good support, keep using the product, and eventually become loyal.</p>
+<div class="b r"><span class="lbl">Remember</span><p>CX = the entire journey, not one department.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>“What is Customer Experience?” (2 marks). Use the key phrase <i>across all interactions / throughout the customer journey</i>.</p></div>
+</article>
+
+<article class="c" id="cs-vs-cx">
+<h2>Customer Service vs CX</h2>
+<div class="tw"><table><thead><tr><th></th><th>Customer service</th><th>Customer experience</th></tr></thead><tbody>
+<tr><td><b>Scope</b></td><td>Direct help when a customer has a question or problem</td><td>Every touchpoint: marketing, website, product, onboarding, support, communication, billing, renewal</td></tr>
+<tr><td><b>When</b></td><td>Mostly reactive</td><td>Before, during and after purchase</td></tr>
+<tr><td><b>Owner</b></td><td>Support team</td><td>The whole company</td></tr>
+</tbody></table></div>
+<div class="b ex"><span class="lbl">Example</span><p>An agent solves a billing question in 2 minutes (great service), but the customer only called because the invoice was confusing (poor experience).</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>Customer service is one part of the overall customer experience.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>“Difference between CX and customer service?” — define both, then state the relationship in one line.</p></div>
+</article>
+
+<article class="c" id="journey">
+<h2>Customer Journey</h2>
+<div class="b m"><span class="lbl">What it means</span><p>The stages and touchpoints a customer goes through with a product, from first hearing about it to recommending it.</p>
+<div class="flow"><span>Awareness</span><i>→</i><span>Consideration</span><i>→</i><span>Acquisition</span><i>→</i><span>Onboarding</span><i>→</i><span>Adoption</span><i>→</i><span>Retention</span><i>→</i><span>Loyalty</span></div></div>
+<div class="b ex"><span class="lbl">Example: a software product</span>
+<ol class="small">
+<li><b>Awareness</b> — learns the product exists.</li>
+<li><b>Consideration</b> — visits the website, compares with competitors.</li>
+<li><b>Acquisition</b> — creates an account.</li>
+<li><b>Onboarding</b> — sets up the product.</li>
+<li><b>Adoption</b> — starts using features regularly.</li>
+<li><b>Retention</b> — keeps using it.</li>
+<li><b>Loyalty</b> — recommends it to others.</li></ol></div>
+<div class="b r"><span class="lbl">Remember</span><p>A-C-A-O-A-R-L: “Aware customers actually onboard, adopt, return, love.”</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>Naming the stages, or locating a problem: “Users sign up but quit in week one” is an <b>onboarding/adoption</b> problem.</p></div>
+</article>
+
+<article class="c" id="lifecycle">
+<h2>Customer Lifecycle</h2>
+<div class="b m"><span class="lbl">What it means</span><p>The stages of the customer <b>relationship</b> over time, seen from the business side: reach → acquire → onboard → engage → retain/renew → advocate (or churn).</p></div>
+<div class="b ex"><span class="lbl">Journey vs lifecycle</span><p>The journey focuses on the customer's experience across touchpoints; the lifecycle focuses on where the relationship stands. At entry level the two overlap heavily — what matters is that both describe the <i>whole</i> relationship.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>Journey = the path. Lifecycle = the relationship's stage.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>Usually a definition, or choosing the right message for a stage (welcome email for onboarding, renewal reminder for retention).</p></div>
+</article>
+
+<article class="c" id="retention">
+<h2>Customer Retention</h2>
+<div class="b m"><span class="lbl">What it means</span><p>Keeping existing customers active over a period of time.</p></div>
+<div class="b ex"><span class="lbl">Example</span><p>100 customers in January; 70 of them still active in March → 70% retention.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>Retention = keeping. Retention ↑ is good.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>Vocabulary MCQ (“closest meaning of retention”) or a retention-rate calculation.</p></div>
+</article>
+
+<article class="c" id="churn">
+<h2>Churn</h2>
+<div class="b m"><span class="lbl">What it means</span><p>Customers who stop using or paying for a product during a period.</p></div>
+<div class="b ex"><span class="lbl">Example</span><p>100 customers at the start; 10 leave → 10% churn.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>Churn = leaving. Churn ↓ is good. For the same group and period, retention + churn = 100%.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>Churn-rate calculation, or “retention is falling — what would you investigate?”</p></div>
+</article>
+
+<article class="c" id="loyalty">
+<h2>Customer Loyalty</h2>
+<div class="b m"><span class="lbl">What it means</span><p>A customer's willingness to keep choosing and recommending a company, even when alternatives exist. Often measured with NPS.</p></div>
+<div class="b ex"><span class="lbl">Example</span><p>A customer renews every year and refers two colleagues without being asked.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>Retention = they stay. Loyalty = they stay <i>and</i> recommend.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>Matching NPS to “recommendation / loyalty”.</p></div>
+</article>
+
+<article class="c" id="feedback">
+<h2>Customer Feedback</h2>
+<div class="b m"><span class="lbl">What it means</span><p>What customers tell you, directly or indirectly, about their experience.</p>
+<ul class="small"><li><b>Asked for:</b> surveys (NPS, CSAT, CES), interviews.</li><li><b>Unprompted:</b> support tickets, complaints, reviews, comments.</li><li><b>Behavioural:</b> usage data — what people do, not what they say.</li></ul></div>
+<div class="b ex"><span class="lbl">Example</span><p>Many tickets ask “how do I configure this?” → feedback that onboarding is unclear.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“Customer feedback helps organizations identify user problems and improve products, services, and overall customer experience.”</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>“Write one sentence on why feedback matters”, or using AI to analyse thousands of comments.</p></div>
+</article>
+
+<article class="c" id="segmentation">
+<h2>Customer Segmentation</h2>
+<div class="b m"><span class="lbl">What it means</span><p>Dividing customers into meaningful groups based on characteristics or behaviour.</p></div>
+<div class="b ex"><span class="lbl">Example segments</span><div class="chips"><span>New users</span><span>Active users</span><span>Inactive users</span><span>High-value customers</span><span>Returning customers</span><span>By geography</span><span>By product usage</span></div></div>
+<p><b>Why it is useful:</b> different groups have different needs, so segmentation gives <b>more relevant communication + better analysis + better targeting</b>. In analysis, it shows <i>where</i> a problem is happening.</p>
+<div class="b r"><span class="lbl">Remember</span><p>Averages hide problems; segments reveal them.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>“What is segmentation and why is it useful?” (3 marks: definition, example, benefit).</p></div>
+</article>
+
+<article class="c" id="personalization">
+<h2>Personalization</h2>
+<div class="b m"><span class="lbl">What it means</span><p>Tailoring messages, content or product experience to a customer's behaviour, needs or segment.</p></div>
+<div class="grid2 vs">
+<div class="b x"><span class="lbl">Generic</span><p>“Check out our latest features.”</p></div>
+<div class="b ok"><span class="lbl">Personalized</span><p>“You recently used Feature A. Here's how you can get more value from Feature B.”</p></div></div>
+<div class="b r"><span class="lbl">Remember</span><p>Segmentation decides <i>who</i>; personalization decides <i>what each person sees</i>.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>Suggesting solutions, e.g. “users don't know which feature to use first” → personalized recommendations.</p></div>
+</article>
+</section>
+
+<!-- ============ CH 3 ============ -->
+<section class="ch" id="ch-3" data-title="CX Metrics" hidden>
+<p class="eyebrow">Chapter 03</p>
+<h1>CX Metrics</h1>
+<p class="lede">Eleven metrics, each with definition, formula, worked example, interpretation and the mistake people make.</p>
+
+<article class="c" id="metric-map">
+<h2>Metric map</h2>
+<div class="tw"><table><thead><tr><th>Metric</th><th>Measures</th><th>Better when</th></tr></thead><tbody>
+<tr><td><b>NPS</b></td><td>Recommendation / loyalty</td><td>Higher</td></tr>
+<tr><td><b>CSAT</b></td><td>Satisfaction</td><td>Higher</td></tr>
+<tr><td><b>CES</b></td><td>Customer effort</td><td>Easier</td></tr>
+<tr><td><b>Conversion rate</b></td><td>Desired action completed</td><td>Higher</td></tr>
+<tr><td><b>CTR</b></td><td>Click behaviour</td><td>Higher</td></tr>
+<tr><td><b>Open rate</b></td><td>Email opens</td><td>Higher</td></tr>
+<tr><td><b>Bounce rate</b></td><td>Non-engaged visits</td><td>Lower</td></tr>
+<tr><td><b>Retention</b></td><td>Customers staying</td><td>Higher</td></tr>
+<tr><td><b>Churn</b></td><td>Customers leaving</td><td>Lower</td></tr>
+<tr><td><b>CAC</b></td><td>Cost to acquire one customer</td><td>Lower</td></tr>
+<tr><td><b>CLV / LTV</b></td><td>Value of a customer over the relationship</td><td>Higher</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="c" id="nps">
+<h2>NPS — Net Promoter Score</h2>
+<div class="b m"><span class="lbl">Definition</span><p>Measures loyalty by asking: <i>“How likely are you to recommend us to a friend or colleague?”</i> (0–10). <b>9–10 Promoters · 7–8 Passives · 0–6 Detractors.</b></p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">NPS <span class="eq">=</span> % Promoters − % Detractors</div></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">Promoters 60%, Detractors 20% → NPS = <b>40</b>.<br>With counts: 200 responses → 120 promoters (60%), 50 passives, 30 detractors (15%) → 60 − 15 = <b>45</b>.</p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>Ranges from −100 to +100. Positive means more promoters than detractors.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“Would they recommend us?”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Writing NPS as a percentage (“40%”) — it is a score. Passives count in the total responses but not in the subtraction.</p></div>
+</article>
+
+<article class="c" id="csat">
+<h2>CSAT — Customer Satisfaction Score</h2>
+<div class="b m"><span class="lbl">Definition</span><p>How satisfied customers are with a product, service or interaction: <i>“How satisfied were you with the service?”</i>, often on a 1–5 scale.</p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">CSAT <span class="eq">=</span> Satisfied responses (4–5) ÷ Total responses × 100</div></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">400 responses, 340 rated 4 or 5 → 340 ÷ 400 × 100 = <b>85%</b>.</p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>If most customers give 4 or 5, CSAT is good. Usually measures a specific interaction.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“Were they happy with that experience?”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Confusing CSAT (satisfaction with an interaction) with NPS (willingness to recommend overall).</p></div>
+</article>
+
+<article class="c" id="ces">
+<h2>CES — Customer Effort Score</h2>
+<div class="b m"><span class="lbl">Definition</span><p>How easy or hard it was for the customer to get something done: <i>“How easy was it to resolve your issue?”</i></p></div>
+<div class="b f"><span class="lbl">Formula (common form)</span><div class="fx">CES <span class="eq">=</span> Sum of effort scores ÷ Number of responses</div></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">Five answers on a 1–7 “easy” scale: 6, 7, 5, 6, 6 → 30 ÷ 5 = <b>6.0</b> (mostly easy).</p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>Low effort = good CX. Very useful for onboarding and support processes.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“How hard did we make it?”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Ignoring scale direction — check whether a high number means “easy” or “difficult”.</p></div>
+</article>
+
+<article class="c" id="conversion">
+<h2>Conversion Rate</h2>
+<div class="b m"><span class="lbl">Definition</span><p>The percentage of users who complete a desired action (sign-up, purchase, trial start).</p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">Conversion rate <span class="eq">=</span> Conversions ÷ Total visitors × 100</div></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">800 sign-ups ÷ 20,000 visitors × 100 = <b>4%</b><br>50 sign-ups ÷ 1,000 visitors × 100 = <b>5%</b></p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>Higher conversion means more users complete the action. More traffic with lower conversion is a warning sign, not a success.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“How many visitors became users?”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Confusing conversion rate with CTR, or dividing by the wrong base. The denominator must be the people who had the chance to convert.</p></div>
+</article>
+
+<article class="c" id="ctr">
+<h2>CTR — Click-Through Rate</h2>
+<div class="b m"><span class="lbl">Definition</span><p>The percentage of people who clicked a link, ad, button or email after seeing it.</p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">CTR <span class="eq">=</span> Clicks ÷ Impressions × 100</div><p class="small muted">For email, impressions = emails delivered (or sent, if that is all you are given).</p></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">500 clicks ÷ 10,000 emails × 100 = <b>5%</b><br>Campaign A: 1,000 ÷ 100,000 = <b>1%</b> · Campaign B: 800 ÷ 40,000 = <b>2%</b> → B performs better.</p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>A high CTR means the message or creative makes people act. Related: <b>click-to-open rate (CTOR)</b> = clicks ÷ opens.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“Of everyone who saw it, how many clicked?”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Judging by total clicks. Campaign A had more clicks but a lower CTR — always check the denominator.</p></div>
+</article>
+
+<article class="c" id="open-rate">
+<h2>Open Rate</h2>
+<div class="b m"><span class="lbl">Definition</span><p>The percentage of delivered emails that were opened.</p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">Open rate <span class="eq">=</span> Opens ÷ Delivered emails × 100</div></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">3,000 opens ÷ 10,000 delivered × 100 = <b>30%</b></p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>Mostly reflects the subject line, sender and timing. A high open rate with a low CTR points to a problem <i>inside</i> the email.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>Open rate = the subject line's report card.</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Treating opens as engagement. Opening is not clicking or converting, and some email privacy features can over-count opens.</p></div>
+</article>
+
+<article class="c" id="bounce">
+<h2>Bounce Rate (website)</h2>
+<div class="b m"><span class="lbl">Definition</span><p>The share of visits where the user leaves without meaningful interaction.</p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">Bounce rate <span class="eq">=</span> Bounced sessions ÷ Total sessions × 100</div></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">400 bounces ÷ 1,000 visits × 100 = <b>40%</b></p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>Lower is generally better. Definitions differ by tool: in older Universal Analytics a bounce was a single-page session; in <b>GA4</b> it is a session that was not “engaged” (engaged = 10+ seconds, a key event, or 2+ page views), so GA4 bounce rate = 100% − engagement rate.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“Came, saw, left.”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Mixing website bounce with <b>email bounce</b> (an email that could not be delivered).</p></div>
+</article>
+
+<article class="c" id="retention-rate">
+<h2>Retention Rate</h2>
+<div class="b m"><span class="lbl">Definition</span><p>The percentage of customers at the start of a period who are still active at the end.</p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">Retention <span class="eq">=</span> Customers retained ÷ Customers at start × 100</div>
+<p class="small">If new customers joined during the period: <b>(End − New) ÷ Start × 100</b></p></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">100 customers in January, 70 of them active in March → <b>70%</b>.<br>Start 200, end 230, new 50 → (230 − 50) ÷ 200 × 100 = <b>90%</b>.</p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>Higher is better. A falling retention rate usually points to onboarding, value or experience problems.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“Of the people we had, how many stayed?”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Counting new customers as “retained” — they were not there at the start.</p></div>
+</article>
+
+<article class="c" id="churn-rate">
+<h2>Churn Rate</h2>
+<div class="b m"><span class="lbl">Definition</span><p>The percentage of customers who left during a period.</p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">Churn <span class="eq">=</span> Customers lost ÷ Customers at start × 100</div></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">2,000 customers in January, 300 left by March → 300 ÷ 2,000 × 100 = <b>15%</b> (Jan–Mar).</p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>Lower is better. Churn + retention = 100% for the same starting group and period.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“Of the people we had, how many left?”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Dividing by customers remaining (1,700 → 17.6%) instead of customers at the start. Also forgetting to state the period.</p></div>
+</article>
+
+<article class="c" id="cac">
+<h2>CAC — Customer Acquisition Cost</h2>
+<div class="b m"><span class="lbl">Definition</span><p>The average cost of acquiring one new customer.</p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">CAC <span class="eq">=</span> Total acquisition cost ÷ New customers</div></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">$10,000 marketing cost ÷ 200 new customers = <b>$50</b> per customer.</p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>Lower is better — but only if those customers stay. Compare CAC with CLV: a customer should be worth more than they cost to win.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“What did each new customer cost us?”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Leaving out costs (sales salaries, tools), or not using a percentage — CAC is money, not a rate.</p></div>
+</article>
+
+<article class="c" id="clv">
+<h2>CLV / LTV — Customer Lifetime Value</h2>
+<div class="b m"><span class="lbl">Definition</span><p>The total revenue or value a customer is expected to bring during the whole relationship.</p></div>
+<div class="b f"><span class="lbl">Formula (simple form)</span><div class="fx">CLV <span class="eq">≈</span> Average revenue per period × Average customer lifespan (periods)</div></div>
+<div class="b ex"><span class="lbl">Example</span><p class="work">$50 per month × 24 months = <b>$1,200</b> CLV. If CAC is $50, each customer is worth far more than they cost.</p></div>
+<div class="b t"><span class="lbl">How to interpret</span><p>Higher is better. Improving retention increases lifespan, which increases CLV.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>“What is one customer worth over time?”</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Treating CLV as a fact rather than an estimate, or mixing up revenue with profit.</p></div>
+</article>
+
+<article class="c" id="metric-practice">
+<h2>Practice: metrics</h2>
+<p><span class="tag prac">Practice</span></p>
+<details class="reveal"><summary>1. 50,000 impressions, 1,250 clicks. CTR?</summary><div class="in"><p class="work">1,250 ÷ 50,000 × 100 = <b>2.5%</b></p></div></details>
+<details class="reveal"><summary>2. 500 customers at start, 40 cancel. Churn and retention?</summary><div class="in"><p class="work">Churn = 40 ÷ 500 × 100 = <b>8%</b>. Retention = 460 ÷ 500 × 100 = <b>92%</b>.</p></div></details>
+<details class="reveal"><summary>3. Promoters 50%, passives 30%, detractors 20%. NPS?</summary><div class="in"><p class="work">50 − 20 = <b>30</b> (passives are ignored).</p></div></details>
+<details class="reveal"><summary>4. Match: which metric for “how easy was it?”</summary><div class="in"><p><b>CES</b> — Customer Effort Score.</p></div></details>
+</article>
+</section>
+
+<!-- ============ CH 4 ============ -->
+<section class="ch" id="ch-4" data-title="Data Analysis" hidden>
+<p class="eyebrow">Chapter 04</p>
+<h1>Data Analysis</h1>
+<p class="lede">Reading tables and graphs, the calculations that appear in almost every paper, and the habits that keep conclusions honest.</p>
+
+<article class="c" id="tables">
+<h2>Reading tables</h2>
+<ol class="steps">
+<li><b>Read the headings and units</b>Months? Thousands? Percent?</li>
+<li><b>Turn raw numbers into rates</b>Sign-ups ÷ visitors tells more than sign-ups alone.</li>
+<li><b>Compare across rows</b>Which month is highest, lowest, changing?</li>
+<li><b>Connect columns</b>Traffic up but customers down is the story.</li>
+<li><b>Separate fact from hypothesis</b>State what the data shows, then what might explain it.</li>
+</ol>
+<div class="b ex"><span class="lbl">Example</span>
+<div class="tw"><table><thead><tr><th>Month</th><th class="num">Visitors</th><th class="num">Sign-ups</th><th class="num">Customers</th><th class="num">Sign-up rate</th></tr></thead><tbody>
+<tr><td>Jan</td><td class="num">10,000</td><td class="num">500</td><td class="num">100</td><td class="num">5%</td></tr>
+<tr><td>Feb</td><td class="num">12,000</td><td class="num">600</td><td class="num">120</td><td class="num">5%</td></tr>
+<tr><td>Mar</td><td class="num">15,000</td><td class="num">600</td><td class="num">90</td><td class="num">4%</td></tr>
+</tbody></table></div>
+<p><b>Highest sign-up conversion:</b> January and February (5%).<br><b>March:</b> traffic rose, sign-ups stayed flat, customers fell. Possible causes: conversion or onboarding problem, product-experience issue, lower-quality traffic, a technical issue, or marketing targeting.</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Presenting a hypothesis as a fact. The table shows <i>that</i> customers fell, not <i>why</i>.</p></div>
+</article>
+
+<article class="c" id="graphs">
+<h2>Reading graphs</h2>
+<p>Don't just read numbers. Check five things:</p>
+<ol class="steps">
+<li><b>Trend</b>Increasing, decreasing, flat?</li>
+<li><b>Comparison</b>Which category is highest or lowest?</li>
+<li><b>Change</b>By how many percent?</li>
+<li><b>Anomaly</b>Any unusual spike or drop?</li>
+<li><b>Possible reason</b>What could explain it — and how would you check?</li>
+</ol>
+<div class="b ex"><span class="lbl">Example: weekly support tickets</span>
+<svg class="chart" viewBox="0 0 340 150" role="img" aria-label="Line chart of weekly support tickets: 120, 130, 125, 135, 310, 140. Week 5 is a spike.">
+<g stroke="var(--line)" stroke-width="1"><line x1="30" y1="20" x2="330" y2="20"/><line x1="30" y1="70" x2="330" y2="70"/><line x1="30" y1="120" x2="330" y2="120"/></g>
+<g fill="var(--ink3)" font-size="10" font-family="inherit"><text x="0" y="23">300</text><text x="0" y="73">200</text><text x="0" y="123">100</text>
+<text x="40" y="140">W1</text><text x="95" y="140">W2</text><text x="150" y="140">W3</text><text x="205" y="140">W4</text><text x="260" y="140">W5</text><text x="312" y="140">W6</text></g>
+<polyline fill="none" stroke="var(--accent)" stroke-width="2.5" points="45,110 100,105 155,107.5 210,102.5 265,15 318,100"/>
+<g fill="var(--accent)"><circle cx="45" cy="110" r="3.5"/><circle cx="100" cy="105" r="3.5"/><circle cx="155" cy="107.5" r="3.5"/><circle cx="210" cy="102.5" r="3.5"/><circle cx="318" cy="100" r="3.5"/></g>
+<circle cx="265" cy="15" r="6" fill="var(--bad)"/>
+<text x="200" y="14" fill="var(--bad)" font-size="10.5" font-weight="700" font-family="inherit">anomaly</text>
+</svg>
+<p class="small"><b>Trend:</b> stable around 120–140. <b>Anomaly:</b> week 5 jumps to 310 (+130% vs week 4). <b>Next step:</b> check releases, outages or campaigns in week 5 and the ticket categories for that week.</p></div>
+</article>
+
+<article class="c" id="pct-change">
+<h2>Percentage increase and decrease</h2>
+<div class="b f"><span class="lbl">Formula: increase</span><div class="fx">(New − Old) ÷ Old × 100</div></div>
+<div class="b ex"><span class="lbl">Worked example</span><p class="work">Complaints 400 → 520. Increase = 120. 120 ÷ 400 × 100 = <b>30%</b>.<br>Users 1,200 → 1,500. Increase = 300. 300 ÷ 1,200 × 100 = <b>25%</b>.</p></div>
+<div class="b f"><span class="lbl">Formula: decrease</span><div class="fx">(Old − New) ÷ Old × 100</div></div>
+<div class="b ex"><span class="lbl">Worked example</span><p class="work">200 → 150. Decrease = 50. 50 ÷ 200 × 100 = <b>25%</b>.</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Dividing by the new value. Always divide by the <b>old</b> (starting) value.</p></div>
+<div class="b t"><span class="lbl">Exam tip: percent vs percentage points</span><p>Conversion falling from 5% to 4% is a drop of <b>1 percentage point</b>, which is a <b>20% relative decrease</b> (1 ÷ 5). Say which one you mean.</p></div>
+</article>
+
+<article class="c" id="ratio">
+<h2>Ratio</h2>
+<p><span class="tag rep">Candidate report</span> Ratio-based maths was specifically reported in a recent Therap written test.</p>
+<div class="b f"><span class="lbl">Method</span><div class="fx">Part ÷ Total parts × Total amount</div></div>
+<div class="b ex"><span class="lbl">Worked examples</span><p class="work">A:B = 2:3, total 500 → parts = 5. A = 2/5 × 500 = <b>200</b>, B = 3/5 × 500 = <b>300</b>.<br>Satisfied:unsatisfied = 7:3, 1,000 customers → 7/10 × 1,000 = <b>700</b> satisfied.</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Using 7/3 instead of 7/10. Add the parts first.</p></div>
+</article>
+
+<article class="c" id="stats">
+<h2>Average, median, mode, range</h2>
+<div class="b f"><span class="lbl">Formulas</span><div class="fx">Mean <span class="eq">=</span> Sum ÷ Count</div><p class="small"><b>Median</b> = middle value after sorting (average of the two middle values if the count is even) · <b>Mode</b> = most frequent value · <b>Range</b> = Max − Min</p></div>
+<div class="b ex"><span class="lbl">Worked examples</span><p class="work">Tickets 20, 25, 30, 15, 10 → sum 100 ÷ 5 = <b>mean 20</b>; range 30 − 10 = 20.<br>2, 4, 6, 8, 10 → <b>median 6</b>. · 2, 3, 3, 4, 5 → <b>mode 3</b>.<br>3, 5, 7, 9 → median (5 + 7) ÷ 2 = <b>6</b>.</p></div>
+<div class="b t"><span class="lbl">Exam tip</span><p>One extreme value pulls the mean but not the median — mention this if a dataset has an outlier.</p></div>
+</article>
+
+<article class="c" id="trends-compare">
+<h2>Identifying trends and comparing metrics</h2>
+<ul>
+<li><b>Trend:</b> direction over several periods, not one jump.</li>
+<li><b>Compare rates, not totals:</b> campaign B with 800 clicks can beat campaign A with 1,000.</li>
+<li><b>Normalise:</b> more tickets may simply mean more customers — check tickets per active user.</li>
+<li><b>Look at relationships:</b> the strongest answers link several columns (“traffic ↑, conversion ↓, tickets ↑”).</li>
+</ul>
+<div class="b r"><span class="lbl">Remember</span><p>Trend · Segment · Compare · Anomaly · Root cause.</p></div>
+</article>
+
+<article class="c" id="anomalies">
+<h2>Anomalies and outliers</h2>
+<div class="b m"><span class="lbl">What it means</span><p>A value that does not fit the pattern. It may be a real event (outage, viral post) or a data error.</p></div>
+<div class="b ex"><span class="lbl">Example</span><p>Ages 22, 24, 25, 23, <b>999</b> — 999 is almost certainly a data-entry error.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>Name the anomaly, quantify it, then say what you'd check before acting on it.</p></div>
+</article>
+
+<article class="c" id="seg-analysis">
+<h2>Segmentation in analysis</h2>
+<p>Split the data to find <i>where</i> a change happens: traffic source, device, browser, geography, new vs returning users, customer type, product, campaign.</p>
+<div class="b ex"><span class="lbl">Example</span><p>Overall conversion fell 15%. By device: desktop unchanged, mobile fell sharply → investigate the mobile sign-up page.</p></div>
+</article>
+
+<article class="c" id="cleaning">
+<h2>Data cleaning</h2>
+<p>Raw data often contains:</p>
+<div class="chips"><span>Duplicate rows</span><span>Missing values</span><span>Wrong values</span><span>Different formats</span><span>Typos</span><span>Outliers</span></div>
+<div class="b t"><span class="lbl">Why it matters</span><p>Dirty data creates false trends. That is why step one of every analysis is <b>verify the data</b>.</p></div>
+</article>
+
+<article class="c" id="corr-cause">
+<h2>Correlation vs causation</h2>
+<div class="b m"><span class="lbl">What it means</span><p><b>Correlation:</b> two things move together. <b>Causation:</b> one actually causes the other. Correlation alone does not prove causation.</p></div>
+<div class="b ex"><span class="lbl">Example</span><p>Ice-cream sales and swimming accidents both rise. Ice cream doesn't cause accidents — a third factor, <b>hot weather</b>, drives both.</p></div>
+<div class="b f"><span class="lbl">How to test causation</span><p>Compare similar groups, or run a controlled experiment such as an <b>A/B test</b>.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>Correlation ≠ Causation.</p></div>
+</article>
+
+<article class="c" id="spreadsheet">
+<h2>Spreadsheet basics</h2>
+<p>Excel and Google Sheets appear in an external job listing for the role. Know what these do:</p>
+<div class="tw"><table><thead><tr><th>Function</th><th>Does</th><th>Example</th></tr></thead><tbody>
+<tr><td>SUM</td><td>Adds values</td><td>=SUM(B2:B6)</td></tr>
+<tr><td>AVERAGE</td><td>Mean</td><td>=AVERAGE(B2:B6)</td></tr>
+<tr><td>COUNT</td><td>Counts numeric cells</td><td>=COUNT(B2:B100)</td></tr>
+<tr><td>MAX / MIN</td><td>Largest / smallest</td><td>=MAX(B2:B6)</td></tr>
+<tr><td>IF</td><td>Returns one value or another</td><td>=IF(C2&gt;5,"High","Low")</td></tr>
+<tr><td>COUNTIF</td><td>Counts cells meeting a condition</td><td>=COUNTIF(D2:D500,"Billing")</td></tr>
+<tr><td>SUMIF</td><td>Adds cells meeting a condition</td><td>=SUMIF(A2:A50,"Email",C2:C50)</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="c" id="data-practice">
+<h2>Practice: data</h2>
+<p><span class="tag prac">Practice</span></p>
+<details class="reveal"><summary>1. Visitors 8,000 → 10,000. Percentage increase?</summary><div class="in"><p class="work">2,000 ÷ 8,000 × 100 = <b>25%</b></p></div></details>
+<details class="reveal"><summary>2. Tickets 250 → 200. Percentage decrease?</summary><div class="in"><p class="work">50 ÷ 250 × 100 = <b>20%</b></p></div></details>
+<details class="reveal"><summary>3. Ratio 3:2, total 750. Split?</summary><div class="in"><p class="work">750 ÷ 5 = 150 per part → <b>450 and 300</b></p></div></details>
+<details class="reveal"><summary>4. Median of 7, 3, 9, 5?</summary><div class="in"><p class="work">Sorted 3, 5, 7, 9 → (5 + 7) ÷ 2 = <b>6</b></p></div></details>
+<details class="reveal"><summary>5. A campaign: 100,000 impressions, 100 clicks. Another: 20,000 impressions, 500 clicks. Better CTR?</summary><div class="in"><p class="work">0.1% vs <b>2.5%</b> → the second campaign.</p></div></details>
+</article>
+</section>
+
+<!-- ============ CH 5 ============ -->
+<section class="ch" id="ch-5" data-title="Analytical Thinking" hidden>
+<p class="eyebrow">Chapter 05</p>
+<h1>Analytical Thinking</h1>
+<p class="lede">How a CX analyst moves from a worrying number to an evidence-based action. This framework answers most situation questions.</p>
+
+<article class="c" id="framework">
+<h2>The analyst framework</h2>
+<ol class="steps">
+<li><b>Verify</b>Is the data accurate? Did tracking or a metric definition change? Is the comparison period fair?</li>
+<li><b>Segment</b>Split by source, device, geography, campaign, new vs returning, customer type.</li>
+<li><b>Identify the drop</b>Where exactly does it happen — which segment, which funnel step, which week?</li>
+<li><b>Investigate</b>What changed there? Releases, pricing, landing pages, campaigns, technical errors, support load.</li>
+<li><b>Find the root cause</b>Dig past symptoms (5 Whys) to the underlying reason the evidence points to.</li>
+<li><b>Form a hypothesis</b>“If we change X, metric Y will improve because Z.”</li>
+<li><b>Test</b>A/B test or pilot the fix on a group before rolling out.</li>
+<li><b>Measure</b>Track the metric after the change and compare with the baseline.</li>
+</ol>
+<div class="b r"><span class="lbl">Remember — short version</span><div class="flow"><span>Verify</span><i>→</i><span>Analyze</span><i>→</i><span>Hypothesize</span><i>→</i><span>Act</span><i>→</i><span>Measure</span></div></div>
+</article>
+
+<article class="c" id="worked-traffic">
+<h2>Worked scenario: traffic +40%, conversion −15%</h2>
+<p><b>Thought process, step by step:</b></p>
+<div class="b ex"><span class="lbl">1 · Put numbers on it</span><p class="work">Say 50,000 visitors at 4% = 2,000 conversions. Traffic +40% → 70,000. Conversion −15% (relative) → 3.4%. Conversions = 70,000 × 3.4% = <b>2,380</b>.</p><p>Total conversions actually <b>rose ~19%</b>. The rate fell, so the new visitors convert worse — a quality-of-traffic or experience question, not necessarily a business collapse.</p></div>
+<div class="b ex"><span class="lbl">2 · Verify</span><p>Has the conversion definition or tracking changed? Is there bot traffic?</p></div>
+<div class="b ex"><span class="lbl">3 · Segment</span><p>Where did the extra 20,000 visitors come from? A new campaign, a new country, mobile? Compare conversion per segment.</p></div>
+<div class="b ex"><span class="lbl">4 · Funnel</span><p>Landing page → sign-up page → form → completed. Which step lost the most?</p></div>
+<div class="b ex"><span class="lbl">5 · Hypothesis, test, measure</span><p>“Paid social traffic lands on a generic page; a dedicated landing page will lift its conversion.” A/B test it, then track conversion by source.</p></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Answering “improve the website” — no evidence, no method, no measurement.</p></div>
+</article>
+
+<article class="c" id="rca">
+<h2>Root Cause Analysis</h2>
+<div class="b m"><span class="lbl">What it means</span><p>Finding the underlying reason for a problem rather than treating the symptom.</p></div>
+<div class="b ex"><span class="lbl">Example: complaints increased 30%</span>
+<ol class="small"><li>Verify the data.</li><li>Identify when complaints increased.</li><li>Identify which customer segment is affected.</li><li>Categorize the complaints.</li><li>Find the most common issue.</li><li>Investigate its root cause.</li><li>Recommend a solution — and measure whether complaints fall.</li></ol></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Concluding “the support team is bad” before looking at what customers are complaining about.</p></div>
+</article>
+
+<article class="c" id="five-whys">
+<h2>5 Whys</h2>
+<div class="b m"><span class="lbl">What it means</span><p>Ask “why?” repeatedly (about five times) until you reach a cause you can fix.</p></div>
+<div class="b ex"><span class="lbl">Example</span>
+<p><b>Problem:</b> customers abandon sign-up.</p>
+<ol class="small"><li>Why? Sign-up takes too long.</li><li>Why? There are too many fields.</li><li>Why? The company collects unnecessary information.</li><li>Why? The old process was designed for a different requirement.</li><li>Why? Nobody has reviewed the sign-up journey recently.</li></ol>
+<p><b>Root cause:</b> an outdated sign-up process.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>Stop when the answer is something you can act on.</p></div>
+</article>
+
+<article class="c" id="funnel">
+<h2>Funnel analysis</h2>
+<div class="b m"><span class="lbl">What it means</span><p>Tracking how many users move through each step of a process to find where most drop off.</p></div>
+<div class="b ex"><span class="lbl">Example</span>
+<div class="tw"><table><thead><tr><th>Step</th><th class="num">Users</th><th class="num">Step conversion</th></tr></thead><tbody>
+<tr><td>Visited site</td><td class="num">10,000</td><td class="num">—</td></tr>
+<tr><td>Opened sign-up page</td><td class="num">3,000</td><td class="num">30%</td></tr>
+<tr><td>Started form</td><td class="num">1,500</td><td class="num">50%</td></tr>
+<tr><td>Completed sign-up</td><td class="num">600</td><td class="num">40%</td></tr>
+<tr><td>Activated (finished setup)</td><td class="num">300</td><td class="num">50%</td></tr>
+</tbody></table></div>
+<p>The biggest leak is <b>visit → sign-up page (only 30% continue)</b>. That is where to investigate first.</p></div>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">Step conversion <span class="eq">=</span> Users at this step ÷ Users at previous step × 100</div></div>
+</article>
+
+<article class="c" id="ab-test">
+<h2>A/B testing</h2>
+<div class="b m"><span class="lbl">What it means</span><p>Comparing two versions by randomly showing each to a similar group and measuring which performs better.</p></div>
+<div class="b ex"><span class="lbl">Example</span><p>Version A: “Start Free Trial” · Version B: “Try for Free”. 50% of users see each. Compare CTR, conversion, sign-ups or revenue. Keep the winner.</p></div>
+<div class="b t"><span class="lbl">Good practice</span><p>Change one thing at a time · split users randomly · run both at the same time · choose the success metric before starting · wait for enough users.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>A/B testing is how you prove causation.</p></div>
+</article>
+
+<article class="c" id="hypothesis">
+<h2>Hypothesis</h2>
+<div class="b m"><span class="lbl">What it means</span><p>A testable explanation or prediction based on evidence.</p></div>
+<div class="b f"><span class="lbl">Template</span><div class="fx">If we [change], then [metric] will [improve], because [evidence-based reason].</div></div>
+<div class="b ex"><span class="lbl">Example</span><p>“If we add a setup checklist, onboarding completion will rise, because 40% of tickets ask how to configure the product.”</p></div>
+</article>
+
+<article class="c" id="evidence">
+<h2>Evidence vs assumption</h2>
+<div class="tw"><table><thead><tr><th>Evidence</th><th>Assumption</th></tr></thead><tbody>
+<tr><td>Paying customers fell from 180 to 100.</td><td>“Customers dislike the new price.”</td></tr>
+<tr><td>Onboarding tickets doubled after the March release.</td><td>“The release broke onboarding.”</td></tr>
+<tr><td>Mobile conversion dropped; desktop did not.</td><td>“The website is bad.”</td></tr>
+</tbody></table></div>
+<p>Assumptions are fine as <b>hypotheses</b> — label them and say how you'd test them.</p>
+<div class="b t"><span class="lbl">Useful exam phrases</span><p>“The data suggests…” · “One possible explanation is…” · “To confirm this, I would…” · “Based on this dataset alone, we cannot conclude…”</p></div>
+</article>
+
+<article class="c" id="answer-template">
+<h2>Template for analytical answers</h2>
+<div class="b p"><span class="lbl">Practice structure</span>
+<ol class="small"><li><b>Observation</b> — what the data shows, with numbers.</li><li><b>Verify</b> — check data accuracy.</li><li><b>Segment / funnel</b> — find where it happens.</li><li><b>Possible causes</b> — 2–3 hypotheses, labelled as such.</li><li><b>Action</b> — test the most likely fix.</li><li><b>Measure</b> — the metric you'd track.</li></ol></div>
+</article>
+</section>
+
+<!-- ============ CH 6 ============ -->
+<section class="ch" id="ch-6" data-title="Business & Analytics Tools" hidden>
+<p class="eyebrow">Chapter 06</p>
+<h1>Business &amp; Analytics Tools</h1>
+<p class="lede">Entry-level only: what each tool is, why it is used, and what you could be asked. <span class="tag off">Official</span> The CXSA team works with Salesforce, GA4, Looker Studio, automated flows and AI.</p>
+
+<article class="c" id="crm">
+<h2>CRM — Customer Relationship Management</h2>
+<div class="b m"><span class="lbl">What is it?</span><p>A system used to manage and analyze customer information, interactions, sales activities, communications and relationships throughout the customer lifecycle.</p></div>
+<div class="b ex"><span class="lbl">What it holds</span><div class="chips"><span>Customer profiles</span><span>Leads</span><span>Sales opportunities</span><span>Communication history</span><span>Support information</span><span>Campaigns</span><span>Customer activity</span></div></div>
+<div class="b t"><span class="lbl">Why it's used</span><p>One shared view of each customer, so teams can personalize communication, track the relationship and report on it.</p></div>
+<div class="b r"><span class="lbl">Exam answer</span><p>“CRM stands for Customer Relationship Management. It is a system used to manage and analyze customer interactions, customer information, sales activities, and relationships throughout the customer lifecycle.”</p></div>
+</article>
+
+<article class="c" id="salesforce">
+<h2>Salesforce</h2>
+<div class="b m"><span class="lbl">What is it?</span><p>A major CRM platform. <span class="tag off">Official</span> The CXSA team works with Salesforce CRM and email-marketing systems.</p></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>“Salesforce is an example of a ___” → CRM. Odd-one-out: NPS, CSAT, CES, <b>Salesforce</b> (a tool, not a metric).</p></div>
+</article>
+
+<article class="c" id="ga4">
+<h2>GA4 — Google Analytics 4</h2>
+<div class="b m"><span class="lbl">What is it?</span><p>Google's analytics platform for understanding how users behave on a website or app.</p></div>
+<div class="b ex"><span class="lbl">What you can see</span><div class="chips"><span>Users</span><span>Sessions</span><span>Events</span><span>Traffic sources</span><span>Engagement</span><span>Conversions</span><span>User journeys</span></div></div>
+<div class="b t"><span class="lbl">CXSA mindset</span><p>Visitors ↑ 50% but sign-ups ↓ 20%? Don't celebrate the traffic. Ask: <i>why are more users visiting but fewer converting?</i></p></div>
+<div class="b r"><span class="lbl">Exam answer</span><p>“GA4 (Google Analytics 4) is used to analyze website and app user behavior — traffic sources, events, engagement, conversions and user journeys.”</p></div>
+</article>
+
+<article class="c" id="looker">
+<h2>Looker Studio</h2>
+<div class="b m"><span class="lbl">What is it?</span><p>A Google tool for building reports and dashboards that visualize data from several sources.</p></div>
+<div class="flow"><span>Salesforce + GA4 + spreadsheets</span><i>→</i><span>Dashboard</span><i>→</i><span>Charts</span><i>→</i><span>Business insight</span></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>“Which tool would you use to build a dashboard?” → Looker Studio.</p></div>
+</article>
+
+<article class="c" id="automation">
+<h2>Marketing automation</h2>
+<div class="b m"><span class="lbl">What is it?</span><p>Software that performs repetitive marketing and communication tasks automatically, based on rules or triggers — sending emails, updating records, tagging contacts.</p></div>
+<div class="b t"><span class="lbl">Why it's used</span><p>Timely, consistent and personalized messages at scale, without manual work.</p></div>
+</article>
+
+<article class="c" id="journey-automation">
+<h2>Customer journey automation</h2>
+<div class="b m"><span class="lbl">What is it?</span><p>Automated messages triggered by where a customer is in their journey.</p></div>
+<div class="b ex"><span class="lbl">Example: after sign-up</span>
+<div class="flow"><span>Day 0 · Welcome email</span><i>→</i><span>Day 2 · Getting started</span><i>→</i><span>Day 5 · Feature guide</span><i>→</i><span>Day 10 · Feedback request</span></div></div>
+<div class="b t"><span class="lbl">Exam angle</span><p>Designing a simple flow for onboarding, or measuring it (open rate, CTR, setup completion, retention).</p></div>
+</article>
+
+<article class="c" id="tool-seg">
+<h2>Segmentation in tools</h2>
+<div class="b m"><span class="lbl">What is it?</span><p>Building lists of customers in a CRM or email tool by rules (e.g. “inactive 30+ days”) so each group gets different messages.</p></div>
+<div class="b ex"><span class="lbl">Example</span><p>Segment A new users → onboarding tips. B active users → advanced features. C inactive users → re-engagement email. D high-value customers → personal check-in.</p></div>
+</article>
+
+<article class="c" id="email-campaigns">
+<h2>Email campaigns</h2>
+<div class="b m"><span class="lbl">What is it?</span><p>Planned emails to a list or segment with a goal (adoption, renewal, feedback).</p></div>
+<div class="b ex"><span class="lbl">The email funnel</span><div class="flow"><span>Sent</span><i>→</i><span>Delivered</span><i>→</i><span>Opened (open rate)</span><i>→</i><span>Clicked (CTR)</span><i>→</i><span>Converted</span></div></div>
+<div class="b t"><span class="lbl">Diagnosis</span><p>Low open rate → subject line, sender, timing, audience. High opens but low CTR → content, CTA, offer, relevance. High CTR but low conversion → landing page.</p></div>
+</article>
+</section>
+
+<!-- ============ CH 7 ============ -->
+<section class="ch" id="ch-7" data-title="AI & Prompt Engineering" hidden>
+<p class="eyebrow">Chapter 07</p>
+<h1>AI &amp; Prompt Engineering</h1>
+<p class="lede"><span class="tag rep">Candidate report</span> A recent Therap written-test candidate directly mentioned prompt engineering. <span class="tag off">Official</span> The CXSA team uses AI (Gemini) for research, workflows and customer interaction.</p>
+
+<article class="c" id="ai">
+<h2>What is AI?</h2>
+<div class="b m"><span class="lbl">Simple explanation</span><p>Artificial intelligence is software that performs tasks that normally need human intelligence — understanding language, finding patterns, summarizing, classifying. Tools like Gemini or ChatGPT are <b>large language models</b>: they generate text from the instructions they receive.</p></div>
+<div class="b r"><span class="lbl">Remember</span><p>The output is only as good as the instruction and the data.</p></div>
+</article>
+
+<article class="c" id="prompt-eng">
+<h2>What is prompt engineering?</h2>
+<div class="b m"><span class="lbl">Definition</span><p>The practice of designing clear and effective instructions for AI systems so they produce useful, relevant and controlled outputs.</p></div>
+<div class="b t"><span class="lbl">Strong exam phrase</span><p>“A good prompt reduces ambiguity and makes the expected output more specific and consistent.”</p></div>
+</article>
+
+<article class="c" id="good-prompt">
+<h2>What makes a good prompt</h2>
+<div class="b f"><span class="lbl">Formula</span><div class="fx">GOOD PROMPT <span class="eq">=</span> ROLE + CONTEXT + TASK + CONSTRAINTS + OUTPUT FORMAT</div><p class="small muted">Some sources shorten it to Context + Task + Constraints + Output format; adding the role and the data makes it stronger.</p></div>
+<dl class="defs">
+<div><dt>Role</dt><dd>Who the AI should act as. “You are a customer experience analyst.”</dd></div>
+<div><dt>Context</dt><dd>Background and the data. “These are 500 reviews from the last quarter.”</dd></div>
+<div><dt>Task</dt><dd>Exactly what to do. “Group recurring complaints and find the five most common.”</dd></div>
+<div><dt>Constraints</dt><dd>Limits and rules. “Estimate frequency. Use only the data given. Max 150 words.”</dd></div>
+<div><dt>Output format</dt><dd>Shape of the answer. “Table: issue, frequency, severity, recommendation.”</dd></div>
+</dl>
+</article>
+
+<article class="c" id="bad-good">
+<h2>Bad prompt vs good prompt</h2>
+<div class="grid2 vs"><div class="b x"><span class="lbl">Bad</span><p>“Analyze these reviews.”</p></div>
+<div class="b ok"><span class="lbl">Good</span><p>“You are a customer experience analyst. Analyze these 500 customer reviews, group recurring complaints, identify the five most common problems, estimate frequency, and recommend one action for each.”</p></div></div>
+<div class="grid2 vs" style="margin-top:10px"><div class="b x"><span class="lbl">Bad</span><p>“Analyze this.”</p></div>
+<div class="b ok"><span class="lbl">Good</span><p>“Analyze the following customer feedback. Identify the top 5 recurring complaints, group similar issues, estimate their frequency, and recommend actionable solutions.”</p></div></div>
+<div class="grid2 vs" style="margin-top:10px"><div class="b x"><span class="lbl">Bad</span><p>“Summarize the tickets.”</p></div>
+<div class="b ok"><span class="lbl">Good</span><p>“Summarize these 200 support tickets from March for a manager. List the three biggest issues with ticket counts and one example quote each. Keep it under 120 words.”</p></div></div>
+<div class="b t"><span class="lbl">Why the good ones win</span><p>They define role, data, task, quantity, measures (frequency) and format — the AI has a clear objective.</p></div>
+</article>
+
+<article class="c" id="structured-prompt">
+<h2>Structured prompting</h2>
+<p>Write the prompt in labelled parts so nothing is missed:</p>
+<div class="prompt">You are a customer experience analyst.<br>Analyze the following 500 customer comments.<br>Group them into major complaint categories.<br>Identify the three most common issues.<br>Provide the result in a table with issue, frequency, severity and recommendation.</div>
+<div class="b r"><span class="lbl">Checklist</span><p>Who? With what data? Do what? Within what limits? In what format?</p></div>
+</article>
+
+<article class="c" id="ai-cx">
+<h2>AI for CX, feedback and support tickets</h2>
+<div class="tw"><table><thead><tr><th>Use</th><th>What it does</th></tr></thead><tbody>
+<tr><td><b>Classification</b></td><td>Tags tickets: Billing / Technical / Product / Account / Other</td></tr>
+<tr><td><b>Sentiment analysis</b></td><td>Positive / Neutral / Negative</td></tr>
+<tr><td><b>Pattern detection</b></td><td>Finds recurring problems across thousands of comments</td></tr>
+<tr><td><b>Summarization</b></td><td>Turns long threads into short summaries for managers</td></tr>
+<tr><td><b>Priority detection</b></td><td>Flags urgent or high-impact tickets</td></tr>
+<tr><td><b>Response drafting</b></td><td>Suggests replies for agents to review</td></tr>
+<tr><td><b>Trend identification</b></td><td>Spots rising issues week over week</td></tr>
+<tr><td><b>Knowledge base</b></td><td>Drafts help articles from frequent questions</td></tr>
+</tbody></table></div>
+<div class="b ex"><span class="lbl">Model prompt: 1,000 comments</span><p>“You are a customer experience analyst. Analyze these 1,000 customer comments. Classify each comment by issue category and sentiment, identify recurring problems, rank the problems by frequency and severity, and recommend actionable solutions for the top five issues. Present the results in a concise table.”</p></div>
+</article>
+
+<article class="c" id="ai-risks">
+<h2>AI risks and limitations</h2>
+<ul>
+<li><b>Incorrect analysis / hallucination</b> — confident but wrong conclusions.</li>
+<li><b>Privacy and security</b> — customer data can be sensitive and must be handled appropriately.</li>
+<li><b>Bias</b> — skewed data gives skewed results.</li>
+<li><b>Lack of context</b> — AI doesn't know your business unless told.</li>
+<li><b>Over-reliance</b> — results need human review.</li>
+<li><b>Garbage in, garbage out</b> — poor input means poor output.</li>
+</ul>
+<div class="b r"><span class="lbl">Remember</span><p>AI speeds analysis up; humans verify it.</p></div>
+</article>
+
+<article class="c" id="ai-practice">
+<h2>Practice: prompts</h2>
+<p><span class="tag prac">Practice</span></p>
+<details class="reveal"><summary>Write a prompt to find the top 3 problems in customer feedback.</summary><div class="in"><p>“You are a customer experience analyst. Analyze the following customer feedback, group similar comments into categories, identify the three most common customer problems, estimate their frequency, and briefly explain the evidence for each problem. Present the results in a table.”</p></div></details>
+<details class="reveal"><summary>Improve: “Tell me why customers are leaving.”</summary><div class="in"><p>“You are a CX analyst. Using the attached 300 cancellation-survey responses from Q3, group the reasons customers gave for cancelling, rank them by frequency, quote one representative comment per reason, and suggest one retention action for each of the top three. Output a table.”</p></div></details>
+</article>
+</section>
+
+<!-- ============ CH 8 ============ -->
+<section class="ch" id="ch-8" data-title="English & Summarization" hidden>
+<p class="eyebrow">Chapter 08</p>
+<h1>English &amp; Summarization</h1>
+<p class="lede"><span class="tag rep">Candidate report</span> English proficiency and summarization were both reported. Only the grammar that tends to appear in short business tests is covered.</p>
+
+<article class="c" id="grammar">
+<h2>Grammar essentials</h2>
+<h3>Subject–verb agreement</h3>
+<p>“Customers <b>are</b> leaving” · “Each of the agents <b>has</b> resolved…” · In formal usage “data” is plural: “The data <b>show</b>…” (“the data shows” is also widely used — but every other verb must still agree).</p>
+<h3>Uncountable nouns</h3>
+<p>No plural “s”, singular verb: <b>feedback, information, advice, equipment, software</b>. “Customer feedback <b>is</b> important.”</p>
+<h3>Prepositions + -ing</h3>
+<p>After a preposition, use the -ing form: “important for <b>understanding</b>”, “responsible for <b>analyzing</b>”, “interested in <b>improving</b>”.</p>
+<h3>Common errors</h3>
+<p>“discussed <s>about</s> the issue” · “one of the customer<b>s</b>” · keep one tense in a paragraph.</p>
+<h3>Articles</h3>
+<p>“<b>an</b> email”, “<b>a</b> user” (sound, not letter), “<b>the</b> data in Table 1” (specific).</p>
+</article>
+
+<article class="c" id="grammar-practice">
+<h2>Practice: correct the sentence</h2>
+<p><span class="tag prac">Practice</span></p>
+<details class="reveal"><summary>“Customer feedbacks are very important for understand user problems.”</summary><div class="in"><p><b>Customer feedback is very important for understanding user problems.</b></p></div></details>
+<details class="reveal"><summary>“Each of the agents have resolved twenty tickets.”</summary><div class="in"><p><b>Each of the agents has resolved twenty tickets.</b></p></div></details>
+<details class="reveal"><summary>“The informations are not accurate.”</summary><div class="in"><p><b>The information is not accurate.</b></p></div></details>
+<details class="reveal"><summary>“We discussed about the churn issue.”</summary><div class="in"><p><b>We discussed the churn issue.</b></p></div></details>
+</article>
+
+<article class="c" id="vocab">
+<h2>Business vocabulary</h2>
+<div class="tw"><table><thead><tr><th>Word</th><th>Meaning</th><th>Opposite / contrast</th></tr></thead><tbody>
+<tr><td>Enhance</td><td>Improve, increase quality</td><td>Diminish</td></tr>
+<tr><td>Retention</td><td>Keeping existing customers</td><td>Churn</td></tr>
+<tr><td>Acquisition</td><td>Gaining new customers</td><td>Loss</td></tr>
+<tr><td>Decline</td><td>Decrease</td><td>Rise</td></tr>
+<tr><td>Mitigate</td><td>Reduce the severity of</td><td>Aggravate</td></tr>
+<tr><td>Streamline</td><td>Make simpler, more efficient</td><td>Complicate</td></tr>
+<tr><td>Actionable</td><td>Can be acted on</td><td>Vague</td></tr>
+<tr><td>Insight</td><td>Useful understanding from data</td><td>—</td></tr>
+<tr><td>Friction</td><td>Anything that makes a task harder</td><td>Ease</td></tr>
+<tr><td>Adoption</td><td>Starting and continuing to use</td><td>Abandonment</td></tr>
+<tr><td>Stakeholder</td><td>Person with an interest in the outcome</td><td>—</td></tr>
+<tr><td>Prioritize</td><td>Rank by importance</td><td>—</td></tr>
+<tr><td>Anomaly</td><td>Unusual value</td><td>Norm</td></tr>
+<tr><td>Concise</td><td>Brief and clear</td><td>Verbose</td></tr>
+<tr><td>Feasible</td><td>Possible to do</td><td>Impractical</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="c" id="comprehension">
+<h2>Reading comprehension</h2>
+<p>Read the questions first, then the passage. For business passages, find three things:</p>
+<div class="flow"><span>Problem</span><i>→</i><span>Evidence</span><i>→</i><span>Solution / result</span></div>
+<div class="b x"><span class="lbl">Common mistake</span><p>Choosing a detail that sounds important but isn't the main problem — e.g. “sign-ups” when sign-ups were healthy and the problem was early drop-off.</p></div>
+</article>
+
+<article class="c" id="rewriting">
+<h2>Professional rewriting</h2>
+<p>Make it neutral, specific and free of blame. Replace informal words.</p>
+<div class="grid2 vs"><div class="b x"><span class="lbl">Informal</span><p>“Customers are complaining a lot because the system is confusing and support isn't helping them properly.”</p></div>
+<div class="b ok"><span class="lbl">Professional</span><p>“Customers have reported difficulties using the system, suggesting opportunities to improve both product usability and support effectiveness.”</p></div></div>
+<div class="tw" style="margin-top:10px"><table><thead><tr><th>Instead of</th><th>Write</th></tr></thead><tbody>
+<tr><td>a lot of</td><td>many / a significant number of</td></tr>
+<tr><td>bad / terrible</td><td>below expectations</td></tr>
+<tr><td>fix it</td><td>resolve / address the issue</td></tr>
+<tr><td>they messed up</td><td>an error occurred</td></tr>
+<tr><td>get</td><td>receive / obtain</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="c" id="summarization">
+<h2>Summarization</h2>
+<div class="b f"><span class="lbl">Framework</span><div class="fx">PROBLEM + KEY REASON + IMPACT</div></div>
+<div class="b ex"><span class="lbl">Example passage</span><p>“Customers have reported that the onboarding process is confusing. Many users fail to complete their profile because the system asks for too much information during registration. Support tickets related to onboarding have increased significantly over the last three months.”</p></div>
+<div class="grid2 vs"><div class="b x"><span class="lbl">Bad summary</span><p>“Customers don't like the system.”</p></div>
+<div class="b ok"><span class="lbl">Good summary</span><p>“Customers are struggling with the onboarding process, largely because registration requires excessive information, leading to increased support requests.”</p></div></div>
+<div class="b t"><span class="lbl">Rules</span><p>Use your own words · drop examples and minor detail · keep numbers only if they matter · count words when a limit is given.</p></div>
+</article>
+</section>
+
+<!-- ============ CH 9 ============ -->
+<section class="ch" id="ch-9" data-title="Logical Reasoning" hidden>
+<p class="eyebrow">Chapter 09</p>
+<h1>Logical Reasoning</h1>
+<p class="lede">Short methods and a few practice items. <span class="tag prac">Practice</span> All items here are generated for practice.</p>
+
+<article class="c" id="series">
+<h2>Number series</h2>
+<div class="b t"><span class="lbl">Method</span><p>Check differences first, then ratios, then alternating patterns.</p></div>
+<details class="reveal"><summary>2, 4, 8, 16, ?</summary><div class="in"><p><b>32</b> — each term × 2.</p></div></details>
+<details class="reveal"><summary>3, 6, 11, 18, 27, ?</summary><div class="in"><p><b>38</b> — differences 3, 5, 7, 9, 11.</p></div></details>
+<details class="reveal"><summary>1, 1, 2, 3, 5, 8, ?</summary><div class="in"><p><b>13</b> — each term is the sum of the previous two.</p></div></details>
+<details class="reveal"><summary>100, 50, 25, ?</summary><div class="in"><p><b>12.5</b> — each term ÷ 2.</p></div></details>
+</article>
+
+<article class="c" id="patterns">
+<h2>Patterns, odd one out, analogy</h2>
+<details class="reveal"><summary>Odd one out: NPS, CSAT, CES, Salesforce</summary><div class="in"><p><b>Salesforce</b> — a CRM tool; the others are metrics.</p></div></details>
+<details class="reveal"><summary>Analogy: CSAT : satisfaction :: CES : ?</summary><div class="in"><p><b>Effort</b></p></div></details>
+<details class="reveal"><summary>Odd one out: Awareness, Onboarding, Retention, Open rate</summary><div class="in"><p><b>Open rate</b> — a metric; the others are journey stages.</p></div></details>
+</article>
+
+<article class="c" id="ratio-logic">
+<h2>Ratios in reasoning</h2>
+<details class="reveal"><summary>Agents to tickets is 1:40. How many agents for 1,200 tickets?</summary><div class="in"><p class="work">1,200 ÷ 40 = <b>30 agents</b></p></div></details>
+<details class="reveal"><summary>Users on Basic:Pro plans = 4:5. There are 45 Pro users. How many Basic users?</summary><div class="in"><p class="work">One part = 45 ÷ 5 = 9 → Basic = 4 × 9 = <b>36</b></p></div></details>
+</article>
+
+<article class="c" id="deduction">
+<h2>Basic deduction and statements/conclusions</h2>
+<div class="b t"><span class="lbl">Rule</span><p>A conclusion “follows” only if it must be true from the statements alone. Don't add outside knowledge.</p></div>
+<details class="reveal"><summary>All premium customers have dashboards. Rina is a premium customer. Does Rina have a dashboard?</summary><div class="in"><p><b>Yes</b> — it follows directly.</p></div></details>
+<details class="reveal"><summary>All premium customers have dashboards. Arif has a dashboard. Is Arif premium?</summary><div class="in"><p><b>Cannot be determined</b> — non-premium customers may also have dashboards.</p></div></details>
+<details class="reveal"><summary>Statement: “Sales rose after the campaign.” Conclusion: “The campaign caused the rise.”</summary><div class="in"><p><b>Does not necessarily follow</b> — timing alone is correlation, not causation.</p></div></details>
+</article>
+
+<article class="c" id="ranking">
+<h2>Ranking, direction and seating</h2>
+<details class="reveal"><summary>A is taller than B. C is shorter than B. D is taller than A. Who is tallest?</summary><div class="in"><p>Order: D &gt; A &gt; B &gt; C → <b>D</b>.</p></div></details>
+<details class="reveal"><summary>Rahim is 7th from the top and 12th from the bottom. How many students?</summary><div class="in"><p class="work">7 + 12 − 1 = <b>18</b> (he is counted twice).</p></div></details>
+<details class="reveal"><summary>Walk 5 km north, turn right and walk 3 km, turn right and walk 5 km. Where are you?</summary><div class="in"><p><b>3 km east</b> of the start.</p></div></details>
+<details class="reveal"><summary>P, Q, R, S sit in a row facing north. Q is at the left end. R is immediately right of Q. S is not at the right end. Who is at the right end?</summary><div class="in"><p>Q, R, S, P → <b>P</b>.</p></div></details>
+</article>
+</section>
+
+<!-- ============ CH 10 ============ -->
+<section class="ch" id="ch-10" data-title="Situation-Based Questions" hidden>
+<p class="eyebrow">Chapter 10</p>
+<h1>Situation-Based Questions</h1>
+<p class="lede"><span class="tag rep">Candidate report</span> Situation-based analytical questions were reported in recent Therap written tests. <span class="tag prac">Practice</span> The scenarios below are practice.</p>
+
+<article class="c" id="s1">
+<h2>1 · Traffic ↑ but conversion ↓</h2>
+<div class="b m"><span class="lbl">Situation</span><p>Website traffic +40%, conversion rate −15%.</p></div>
+<div class="b ex"><span class="lbl">What the data suggests</span><p>The new visitors convert worse than before. Total conversions may even be up.</p></div>
+<div class="b x"><span class="lbl">What not to assume</span><p>That the website got worse, or that marketing failed.</p></div>
+<div class="b t"><span class="lbl">Investigate</span><p>Traffic source, device, geography, campaign, new vs returning users; funnel drop-off; landing-page, pricing or sign-up changes; technical errors; targeting.</p></div>
+<div class="b f"><span class="lbl">Framework</span><div class="flow"><span>Verify</span><i>→</i><span>Segment</span><i>→</i><span>Funnel</span><i>→</i><span>Investigate</span><i>→</i><span>Hypothesize</span><i>→</i><span>Test</span><i>→</i><span>Measure</span></div></div>
+<details class="reveal"><summary>Model answer</summary><div class="in"><p>“First, I would verify that the data is accurate and that the conversion definition has not changed. Then I would segment traffic by source, device, geography, campaign and new versus returning users. I would analyze the conversion funnel to identify where the largest drop-off occurs. I would also investigate recent changes to landing pages, pricing, sign-up flow, technical performance and marketing targeting. Finally, I would form hypotheses, prioritize the most likely causes, test solutions such as A/B experiments, and monitor conversion after implementation.”</p></div></details>
+</article>
+
+<article class="c" id="s2">
+<h2>2 · Complaints ↑</h2>
+<div class="b m"><span class="lbl">Situation</span><p>Complaints rose 30% in one month. Management asks, “What should we do?”</p></div>
+<div class="b ex"><span class="lbl">What the data suggests</span><p>Something changed — product, process, customer mix or reporting.</p></div>
+<div class="b x"><span class="lbl">What not to assume</span><p>That the support team is the problem.</p></div>
+<div class="b t"><span class="lbl">Investigate</span><p>Complaint categories (product, billing, technical, onboarding, support, documentation), which grew most, timing, affected segments.</p></div>
+<div class="b f"><span class="lbl">Framework</span><div class="flow"><span>Validate</span><i>→</i><span>Categorize</span><i>→</i><span>Segment</span><i>→</i><span>Root cause</span><i>→</i><span>Act</span><i>→</i><span>Measure</span></div></div>
+<details class="reveal"><summary>Model answer</summary><div class="in"><ol><li><b>Validate the data</b> — confirm the increase is real, not a tracking or reporting change.</li><li><b>Categorize complaints</b> — product, billing, technical, onboarding, support, documentation.</li><li><b>Identify the largest contributor</b> — which category grew most.</li><li><b>Segment</b> — customer type, product, geography, device, new vs existing users.</li><li><b>Fix the root cause and measure</b> — act on the biggest underlying problem, then track whether complaints fall.</li></ol></div></details>
+</article>
+
+<article class="c" id="s3">
+<h2>3 · Email open rate ↑ but CTR ↓</h2>
+<div class="b m"><span class="lbl">Situation</span><p>Open rate 45% (or 40%), CTR 1.5% (or 2%).</p></div>
+<div class="b ex"><span class="lbl">What the data suggests</span><p>The subject line works; the problem is <b>after the open</b>.</p></div>
+<div class="b x"><span class="lbl">What not to assume</span><p>That the campaign is a success because opens are high.</p></div>
+<div class="b t"><span class="lbl">Investigate</span><p>CTA wording and placement, email content, offer relevance, audience fit, device rendering, comparison with past campaigns, landing page.</p></div>
+<details class="reveal"><summary>Model answer</summary><div class="in"><p>“The high open rate suggests the subject line and topic are effective, but the low CTR shows few readers act on the content. Likely issues are a weak or poorly placed CTA, content that doesn't match the subject line, or an offer that isn't relevant to this segment. I would compare CTA wording, content and segments against previous campaigns, check mobile rendering, and A/B test a clearer CTA, measuring CTR and click-to-open rate.”</p></div></details>
+</article>
+
+<article class="c" id="s4">
+<h2>4 · Customers abandon onboarding</h2>
+<div class="b m"><span class="lbl">Situation</span><p>Many new users stop using the product after sign-up or during setup.</p></div>
+<div class="b ex"><span class="lbl">What the data suggests</span><p>Acquisition works; adoption doesn't.</p></div>
+<div class="b x"><span class="lbl">What not to assume</span><p>That these users were never interested.</p></div>
+<div class="b t"><span class="lbl">Investigate</span><p>Onboarding funnel step completion, time to complete setup, onboarding tickets, CES for setup, segment (plan, company size, source).</p></div>
+<details class="reveal"><summary>Model answer</summary><div class="in"><p>“I would map the onboarding funnel to find the step where most users stop, then read support tickets and survey comments from users who dropped at that step. If configuration is the main barrier, I'd test a guided setup checklist, tutorial videos and an automated email sequence (Day 0, 2, 5) against the current flow, measuring setup completion, 14-day activity and retention.”</p></div></details>
+</article>
+
+<article class="c" id="s5">
+<h2>5 · Users don't understand product features</h2>
+<div class="b m"><span class="lbl">Situation</span><p>“Your product has many features, but I don't know what to use first.” Or: “Your software is too difficult to use.”</p></div>
+<div class="b ex"><span class="lbl">What the data suggests</span><p>Poor onboarding, information overload, lack of product guidance.</p></div>
+<div class="b x"><span class="lbl">What not to assume</span><p>That the whole product needs a redesign.</p></div>
+<div class="b t"><span class="lbl">Investigate</span><p>Understand the exact problem, where users struggle, support tickets, usage data, interviews with affected users, common patterns.</p></div>
+<details class="reveal"><summary>Model answer</summary><div class="in"><p><b>Problem:</b> poor onboarding and information overload. <b>Solutions:</b> (1) a guided onboarding / “Getting started” checklist; (2) personalized, contextual recommendations (“based on your role, start with Feature A”). Others: product tours, simpler first-time experience, better information architecture.</p>
+<p><b>Process:</b> understand the problem → find where users struggle → analyze tickets and usage → interview users → find patterns → prioritize → implement → measure whether complaints fall.</p></div></details>
+</article>
+
+<article class="c" id="s6">
+<h2>6 · Retention decreases</h2>
+<div class="b m"><span class="lbl">Situation</span><p>Retention fell from 85% to 75% over two quarters.</p></div>
+<div class="b ex"><span class="lbl">What the data suggests</span><p>Customers are not getting enough ongoing value, or something pushed them away.</p></div>
+<div class="b x"><span class="lbl">What not to assume</span><p>That price is the reason, without asking or checking.</p></div>
+<div class="b t"><span class="lbl">Investigate</span><p>Compare groups by sign-up month (cohorts); which segment churns; onboarding completion and feature adoption of churned vs retained users; exit-survey reasons; NPS/CSAT trend; pricing or product changes.</p></div>
+<details class="reveal"><summary>Model answer</summary><div class="in"><p>“I would verify the retention calculation, then compare churned and retained customers by segment, sign-up cohort and product usage. If churned customers rarely adopted key features, the root cause may be weak onboarding; if churn clusters after a price change, pricing is a hypothesis. I'd test a targeted intervention — e.g. a re-engagement flow for inactive users — and measure 30/60/90-day retention.”</p></div></details>
+</article>
+
+<article class="c" id="s7">
+<h2>7 · Support tickets suddenly increase</h2>
+<div class="b m"><span class="lbl">Situation</span><p>Tickets doubled this week.</p></div>
+<div class="b ex"><span class="lbl">What the data suggests</span><p>A specific event — release, outage, billing run, campaign — or simply more customers.</p></div>
+<div class="b x"><span class="lbl">What not to assume</span><p>That more tickets means worse CX — normalize first (tickets per active user).</p></div>
+<div class="b t"><span class="lbl">Investigate</span><p>When the spike started, ticket categories, recent product changes, technical errors, browser/device, segment, marketing source, geography.</p></div>
+<details class="reveal"><summary>Model answer</summary><div class="in"><p>“I'd verify the spike and check tickets per active user. Then I'd find exactly when it began and categorize the new tickets. If one category dominates and lines up with a release or outage, that is the likely root cause; I'd alert the product team, publish a help article or status update, and track whether ticket volume returns to baseline.”</p></div></details>
+</article>
+
+<article class="c" id="s8">
+<h2>8 · High usage but low satisfaction</h2>
+<div class="b m"><span class="lbl">Situation</span><p>A feature is used by 80% of customers but has the lowest CSAT.</p></div>
+<div class="b ex"><span class="lbl">What the data suggests</span><p>Customers <i>need</i> the feature but it is painful — high effort.</p></div>
+<div class="b x"><span class="lbl">What not to assume</span><p>That high usage means success, or that low satisfaction means remove it.</p></div>
+<div class="b t"><span class="lbl">Investigate</span><p>Which tasks users do with it, CES for the feature, tickets mentioning it, error rates, time to complete, which segments are unhappy.</p></div>
+<details class="reveal"><summary>Model answer</summary><div class="in"><p>“High usage shows the feature is important; low satisfaction shows the experience is poor. I would gather CES scores, tickets and comments about the feature, segment by user type, and observe where users struggle. Then I'd prioritize the biggest friction point, test an improvement, and measure feature CSAT, CES and related ticket volume.”</p></div></details>
+</article>
+</section>
+
+<!-- ============ CH 11 ============ -->
+<section class="ch" id="ch-11" data-title="Mock Exam" hidden>
+<p class="eyebrow">Chapter 11</p>
+<h1>Mock Exam</h1>
+<p class="lede"><span class="tag prac">Practice</span> A 100-mark, 90-minute practice paper modelled on reported assessment areas. <b>It is not a Therap paper.</b></p>
+<details><summary>Exam rules</summary><div class="in"><ul><li>No Google, no AI, no calculator on the first attempt.</li><li>Show calculations where appropriate.</li><li>Analytical answers: evidence → reasoning → action.</li><li>Max ~2 minutes per MCQ.</li><li>MCQs and calculations are auto-marked when you press <b>Check</b>. Written answers: press <b>Show answer</b> and mark yourself honestly against the guide.</li></ul></div></details>
+<div id="mock-root"></div>
+</section>
+
+<!-- ============ CH 12 ============ -->
+<section class="ch" id="ch-12" data-title="Answer Key & Explanations" hidden>
+<p class="eyebrow">Chapter 12</p>
+<h1>Answer Key &amp; Explanations</h1>
+<p class="lede">Every mock question with the answer, why it's right, the common mistake and an exam tip. Answers stay hidden until you open them.</p>
+<div id="key-root"></div>
+</section>
+
+<!-- ============ CH 13 ============ -->
+<section class="ch" id="ch-13" data-title="Rapid Revision" hidden>
+<p class="eyebrow">Chapter 13</p>
+<h1>Rapid Revision</h1>
+<p class="lede">The night-before sheet. Definitions, formulas and frameworks only.</p>
+
+<article class="c" id="rr-defs">
+<h2>Must-know definitions</h2>
+<dl class="defs">
+<div><dt>CX</dt><dd>The customer's overall experience across all interactions throughout the journey.</dd></div>
+<div><dt>CRM</dt><dd>Customer Relationship Management — system to manage and analyze customer data, interactions and relationships (e.g. Salesforce).</dd></div>
+<div><dt>NPS</dt><dd>Loyalty: % Promoters (9–10) − % Detractors (0–6).</dd></div>
+<div><dt>CSAT</dt><dd>Satisfaction with a product or interaction.</dd></div>
+<div><dt>CES</dt><dd>How easy it was for the customer to get something done.</dd></div>
+<div><dt>CTR</dt><dd>Share of people who clicked after seeing a link, ad or email.</dd></div>
+<div><dt>Conversion</dt><dd>Share of users who completed a desired action.</dd></div>
+<div><dt>Retention</dt><dd>Share of customers who stayed over a period.</dd></div>
+<div><dt>Churn</dt><dd>Share of customers who left over a period.</dd></div>
+<div><dt>CAC</dt><dd>Average cost to acquire one new customer.</dd></div>
+<div><dt>CLV / LTV</dt><dd>Expected value of a customer over the whole relationship.</dd></div>
+<div><dt>GA4</dt><dd>Google Analytics 4 — analyzes website/app behavior: traffic, events, engagement, conversions.</dd></div>
+<div><dt>Prompt engineering</dt><dd>Designing clear instructions so AI gives useful, relevant, controlled output.</dd></div>
+</dl>
+</article>
+
+<article class="c" id="rr-formulas">
+<h2>Must-know formulas</h2>
+<div class="tw"><table><thead><tr><th>Metric</th><th>Formula</th><th>Quick check</th></tr></thead><tbody>
+<tr><td><b>Conversion rate</b></td><td>Conversions ÷ Visitors × 100</td><td class="num">800/20,000 = 4%</td></tr>
+<tr><td><b>CTR</b></td><td>Clicks ÷ Impressions × 100</td><td class="num">700/10,000 = 7%</td></tr>
+<tr><td><b>Open rate</b></td><td>Opens ÷ Delivered × 100</td><td class="num">3,500/10,000 = 35%</td></tr>
+<tr><td><b>Retention</b></td><td>Retained ÷ Start × 100</td><td class="num">70/100 = 70%</td></tr>
+<tr><td><b>Churn</b></td><td>Lost ÷ Start × 100</td><td class="num">300/2,000 = 15%</td></tr>
+<tr><td><b>% increase</b></td><td>(New − Old) ÷ Old × 100</td><td class="num">400→520 = 30%</td></tr>
+<tr><td><b>% decrease</b></td><td>(Old − New) ÷ Old × 100</td><td class="num">200→150 = 25%</td></tr>
+<tr><td><b>Average</b></td><td>Sum ÷ Count</td><td class="num">100/5 = 20</td></tr>
+<tr><td><b>Ratio share</b></td><td>Part ÷ Total parts × Total</td><td class="num">7/10 × 1,000 = 700</td></tr>
+<tr><td><b>NPS</b></td><td>% Promoters − % Detractors</td><td class="num">60 − 20 = 40</td></tr>
+<tr><td><b>CAC</b></td><td>Acquisition cost ÷ New customers</td><td class="num">$10,000/200 = $50</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="c" id="rr-frameworks">
+<h2>Must-know frameworks</h2>
+<p><b>Customer journey</b></p>
+<div class="flow"><span>Awareness</span><i>→</i><span>Consideration</span><i>→</i><span>Acquisition</span><i>→</i><span>Onboarding</span><i>→</i><span>Adoption</span><i>→</i><span>Retention</span><i>→</i><span>Loyalty</span></div>
+<p><b>Problem solving</b></p>
+<div class="flow"><span>Verify</span><i>→</i><span>Analyze</span><i>→</i><span>Hypothesize</span><i>→</i><span>Act</span><i>→</i><span>Measure</span></div>
+<p><b>5 Whys</b> — keep asking “why?” until you reach a fixable root cause.</p>
+<p><b>Good prompt</b></p>
+<div class="flow"><span>Role</span><i>+</i><span>Context</span><i>+</i><span>Task</span><i>+</i><span>Constraints</span><i>+</i><span>Output</span></div>
+<p><b>Summary</b> — Problem + Key reason + Impact.</p>
+<p><b>Graphs</b> — Trend · Comparison · Change · Anomaly · Possible reason.</p>
+<div class="b r"><span class="lbl">Remember</span><p>Correlation ≠ Causation. Test it with an A/B test.</p></div>
+</article>
+</section>
+
+<!-- ============ CH 14 ============ -->
+<section class="ch" id="ch-14" data-title="Final Exam Checklist" hidden>
+<p class="eyebrow">Chapter 14</p>
+<h1>Final Exam Checklist</h1>
+<p class="lede">Tick each item only when you could explain it to someone else. Your ticks are saved on this device.</p>
+<article class="c" id="checklist">
+<h2>Am I ready?</h2>
+<ul class="check" id="checkList"></ul>
+<p class="muted small" id="checkCount"></p>
+</article>
+<article class="c" id="final-words">
+<h2>On the day</h2>
+<ul>
+<li>Read every question twice; underline what is being asked.</li>
+<li>Show working for every calculation.</li>
+<li>For scenarios: observation → verify → segment → hypothesis → action → measure.</li>
+<li>Use professional, neutral language — no blame without evidence.</li>
+<li>Leave two minutes to check units (%, $, score).</li>
+</ul>
+<div class="b r"><span class="lbl">Remember</span><p>Don't jump from a number to a conclusion. Ask what the data actually tells you, and what else you need to investigate.</p></div>
+</article>
+</section>
+
+<!-- ============ VIEWS ============ -->
+<section class="view" id="v-quick" data-title="Quick Revision" hidden>
+<p class="eyebrow">⚡ Study mode</p>
+<h1>Quick Revision</h1>
+<p class="lede">The whole core syllabus in about 15–20 minutes. Read top to bottom.</p>
+<article class="c"><h2>The mindset · 30 sec</h2>
+<p>Data → Problem → Analysis → Hypothesis → Action → Measurement. Separate evidence from assumptions. Compare rates, not totals. Correlation ≠ causation.</p></article>
+<div id="quick-sheet"></div>
+<article class="c"><h2>Scenario playbook · 4 min</h2>
+<dl class="defs">
+<div><dt>Traffic ↑ conv ↓</dt><dd>Verify, segment by source/device/campaign, find the funnel drop, check recent changes, hypothesize, A/B test, measure.</dd></div>
+<div><dt>Complaints ↑</dt><dd>Validate → categorize → find biggest category → segment → root cause → act → measure.</dd></div>
+<div><dt>Opens ↑ CTR ↓</dt><dd>Subject line works; problem is after the open — CTA, content, relevance, audience, landing page.</dd></div>
+<div><dt>Onboarding drop-off</dt><dd>Onboarding funnel, setup tickets, CES → guided setup, tutorials, email sequence → measure completion.</dd></div>
+<div><dt>Too many features</dt><dd>Information overload → setup checklist, personalized guidance, product tours.</dd></div>
+<div><dt>Retention ↓</dt><dd>Cohorts and segments; churned vs retained usage; exit reasons; test re-engagement.</dd></div>
+<div><dt>Tickets spike</dt><dd>Normalize per user, find start date, categorize, link to releases/outages.</dd></div>
+<div><dt>High use, low CSAT</dt><dd>Needed but painful → measure effort, find friction, fix, track CSAT/CES.</dd></div>
+<div><dt>Correlation claim</dt><dd>“Can't conclude causation from this data alone — compare similar groups or run an A/B test.”</dd></div>
+</dl></article>
+<article class="c"><h2>AI &amp; prompts · 2 min</h2>
+<p><b>Prompt engineering</b> = designing clear instructions so AI gives useful, relevant, controlled output.</p>
+<p><b>Good prompt</b> = Role + Context + Task + Constraints + Output format.</p>
+<p><b>AI helps CX by</b> classification, sentiment analysis, pattern detection, summarization, priority detection, response drafting.</p>
+<p><b>Risks</b>: wrong analysis/hallucination, privacy, bias, missing context, over-reliance, poor input.</p>
+<div class="prompt">You are a customer experience analyst. Analyze these 1,000 customer comments. Classify each by issue category and sentiment, identify recurring problems, rank them by frequency and severity, and recommend actions for the top five. Present the results in a concise table.</div></article>
+<article class="c"><h2>English · 1 min</h2>
+<p>feedback/information = uncountable (“feedback <b>is</b>”) · preposition + -ing (“for understanding”) · summary = Problem + Key reason + Impact · professional tone = neutral, specific, no blame.</p></article>
+</section>
+
+<section class="view" id="v-mine" data-title="My Revision" hidden>
+<p class="eyebrow">★ Study mode</p>
+<h1>My Revision</h1>
+<p class="lede">Concepts you bookmarked with ☆. Saved on this device.</p>
+<div id="mine-root"></div>
+</section>
+
+<div class="donebar" id="donebar"><p id="doneText">Finished this chapter?</p><button class="btn" id="doneBtn" aria-pressed="false">Mark chapter complete</button></div>
+<nav class="pager" id="pager" aria-label="Chapter navigation"></nav>
+</div>
+</main>
+</div>
+
+<div class="sov" id="sov" hidden role="dialog" aria-modal="true" aria-label="Search">
+  <div class="spanel">
+    <div class="sbox">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="sq" type="search" placeholder="Search NPS, CTR, churn, prompt…" aria-label="Search terms" autocomplete="off">
+      <button class="ib" id="sclose" aria-label="Close search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="sres" id="sres" role="listbox" aria-label="Search results"></div>
+    <div class="sfoot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+var store={get:function(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var chapters=$$("section.ch"), views=$$("section.view"), N=chapters.length;
+var STAR='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>';
+var toastT;
+function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("on")},1800)}
+
+/* ================= MOCK DATA ================= */
+var SEC={
+ A:{t:"English & Business Communication",m:15,time:"~12 min"},
+ B:{t:"Mathematics & Quantitative Reasoning",m:15,time:"~15 min"},
+ C:{t:"Data Analysis & Interpretation",m:20,time:"~20 min"},
+ D:{t:"CX & Analytics Fundamentals",m:15,time:"~12 min"},
+ E:{t:"Analytical & Situational",m:20,time:"~20 min"},
+ F:{t:"AI & Prompt Engineering",m:15,time:"~11 min"}
+};
+var CTX={
+ para:'<p><b>Read the paragraph:</b></p><p>A SaaS company noticed that new customers were signing up at a healthy rate, but many of them stopped using the product within the first two weeks. Analysis of support tickets showed that users frequently asked how to configure the product. The company introduced a guided onboarding flow and short tutorial videos. After two months, the number of users completing the initial setup increased significantly.</p>',
+ table:'<p><b>Dataset for Section C:</b></p><div class="tw"><table><thead><tr><th>Month</th><th class="num">Website visitors</th><th class="num">Sign-ups</th><th class="num">Paying customers</th><th class="num">Support tickets</th></tr></thead><tbody><tr><td>January</td><td class="num">10,000</td><td class="num">500</td><td class="num">150</td><td class="num">300</td></tr><tr><td>February</td><td class="num">12,000</td><td class="num">600</td><td class="num">180</td><td class="num">320</td></tr><tr><td>March</td><td class="num">15,000</td><td class="num">600</td><td class="num">120</td><td class="num">500</td></tr><tr><td>April</td><td class="num">16,000</td><td class="num">560</td><td class="num">100</td><td class="num">650</td></tr></tbody></table></div>'
+};
+var Q=[
+{n:1,s:"A",m:1,type:"mcq",q:"Choose the grammatically correct sentence.",opts:["The data shows that customers is leaving.","The data show that customers are leaving.","The data shows that customers are leaves.","The data showing customers are leaving."],c:1,
+ ans:"<b>B.</b> The data show that customers are leaving.",why:"In formal usage “data” is treated as plural, so <i>show</i> and <i>are</i> agree with their subjects. A has “customers is”, C has “are leaves”, D has no main verb.",mis:"Choosing A because “the data shows” sounds natural — but “customers is” makes A wrong regardless.",tip:"Check every verb against its own subject."},
+{n:2,s:"A",m:1,type:"mcq",q:"The company wants to ______ customer satisfaction by improving its onboarding process.",opts:["decline","enhance","reduce","ignore"],c:1,
+ ans:"<b>B. enhance</b>",why:"Enhance = improve or increase quality. The sentence describes a positive goal (“by improving…”).",mis:"Reading “reduce” as if the blank were about complaints.",tip:"Let the rest of the sentence decide the direction of the missing word."},
+{n:3,s:"A",m:1,type:"mcq",q:"Choose the closest meaning of “retention”.",opts:["Acquiring new customers","Losing customers","Keeping existing customers","Contacting customers"],c:2,
+ ans:"<b>C. Keeping existing customers</b>",why:"Retention means keeping customers rather than losing them. A is acquisition; B is churn.",mis:"Mixing up retention with acquisition.",tip:""},
+{n:4,s:"A",m:2,type:"written",q:"Correct the sentence: “Customer feedbacks are very important for understand user problems.”",
+ ans:"<b>Customer feedback is very important for understanding user problems.</b>",why:"(1) “Feedback” is uncountable — no “s”, and it takes the singular verb “is”. (2) After a preposition (“for”), use the -ing form: “for understanding”.",mis:"Fixing “feedbacks” but leaving “are”.",tip:"",rub:"1 mark: feedback is · 1 mark: for understanding"},
+{n:5,s:"A",m:3,type:"written",ctx:"para",q:"a. What was the main problem? b. What evidence helped identify the problem? c. What solution did the company introduce?",
+ ans:"<b>a.</b> New customers were signing up but many stopped using the product within two weeks.<br><b>b.</b> Support-ticket analysis showed users frequently struggled with product configuration.<br><b>c.</b> A guided onboarding flow and tutorial videos.",why:"The answer links <b>Problem → Evidence → Solution</b> — the core thinking pattern of analytical roles.",mis:"Answering (a) with “low sign-ups” — sign-ups were healthy; the problem was early drop-off.",tip:"",rub:"1 mark for each part"},
+{n:6,s:"A",m:4,type:"written",ctx:"para",wc:[30,40],q:"Write a concise summary of the paragraph above in 30–40 words.",
+ ans:"“Many new users abandoned the product shortly after signup because they struggled with configuration. Support-ticket analysis revealed these onboarding difficulties, so the company introduced guided setup and tutorial videos, which significantly increased setup completion.” <span class=\"muted\">(34 words)</span>",why:"It covers Problem (early abandonment) + Key reason (configuration difficulty, found through tickets) + Action and Impact (guided setup, videos → more setup completion), without unnecessary detail.",mis:"Copying whole sentences from the passage, or going outside the word limit.",tip:"Use Problem + Key reason + Impact, then count your words. <span class=\"muted\">Marks adjusted from 3 to 4 so the paper totals exactly 100.</span>",rub:"1 problem · 1 cause / evidence · 1 solution and outcome · 1 within 30–40 words, in your own words"},
+{n:7,s:"A",m:2,type:"written",q:"Rewrite this sentence professionally: “Customers are complaining a lot because the system is confusing and support isn't helping them properly.”",
+ ans:"“Customers have reported difficulties using the system, suggesting opportunities to improve both product usability and support effectiveness.”",why:"Neutral and specific; it replaces informal words (“a lot”) and avoids blaming the support team without evidence.",mis:"Keeping blame (“support is bad”) or informal phrasing.",tip:"",rub:"1 professional tone · 1 meaning kept without blame"},
+{n:8,s:"A",m:1,type:"written",q:"Write one professional sentence explaining why customer feedback is important.",
+ ans:"“Customer feedback helps organizations identify user problems and improve products, services, and overall customer experience.”",why:"One sentence, professional, states both the purpose (identify problems) and the result (improvement).",mis:"",tip:"",rub:"1 clear professional sentence with a reason"},
+{n:9,s:"B",m:2,type:"num",q:"A website receives 20,000 visitors. 800 visitors sign up. What is the conversion rate?",parts:[{l:"Conversion rate",v:4,u:"%",m:2}],
+ ans:"800 ÷ 20,000 × 100 = <b>4%</b>",why:"Conversions ÷ total visitors × 100.",mis:"Dividing visitors by sign-ups (25) or forgetting × 100 (0.04).",tip:"Write the formula first — it earns method marks."},
+{n:10,s:"B",m:2,type:"num",q:"An email campaign was sent to 10,000 users. 3,500 opened it and 700 clicked the CTA. Calculate (a) open rate (b) CTR.",parts:[{l:"a. Open rate",v:35,u:"%",m:1},{l:"b. CTR",v:7,u:"%",m:1}],
+ ans:"Open rate = 3,500 ÷ 10,000 × 100 = <b>35%</b><br>CTR = 700 ÷ 10,000 × 100 = <b>7%</b>",why:"Both use the emails sent (10,000) as the base.",mis:"Using opens as the CTR denominator when not asked.",tip:"Click-to-open rate (CTOR) = clicks ÷ opens = 700 ÷ 3,500 = 20%. Use it only if the question says “of those who opened”."},
+{n:11,s:"B",m:2,type:"num",q:"A company had 2,000 active customers in January. By March, 300 customers had left. What is the churn rate?",parts:[{l:"Churn rate",v:15,u:"%",m:2}],
+ ans:"300 ÷ 2,000 × 100 = <b>15%</b> (January–March)",why:"Customers lost ÷ customers at the start of the period.",mis:"Dividing by the 1,700 remaining → 17.6%.",tip:"State the period: churn always belongs to a time window."},
+{n:12,s:"B",m:2,type:"num",q:"Customer complaints increased from 400 to 520. What was the percentage increase?",parts:[{l:"Percentage increase",v:30,u:"%",m:2}],
+ ans:"Increase = 120. 120 ÷ 400 × 100 = <b>30%</b>",why:"(New − Old) ÷ Old × 100.",mis:"Dividing by the new value (120 ÷ 520 = 23.1%).",tip:""},
+{n:13,s:"B",m:2,type:"num",q:"The ratio of satisfied to unsatisfied customers is 7:3. If there are 1,000 customers, how many are satisfied?",parts:[{l:"Satisfied customers",v:700,u:"",m:2}],
+ ans:"Total parts = 10. 7/10 × 1,000 = <b>700</b>",why:"Part ÷ total parts × total amount.",mis:"Using 7/3 instead of 7/10.",tip:"Ratio questions were specifically reported by a recent candidate."},
+{n:14,s:"B",m:1,type:"num",q:"Five support agents resolved 20, 25, 30, 15 and 10 tickets. What is the average?",parts:[{l:"Average tickets",v:20,u:"",m:1}],
+ ans:"20 + 25 + 30 + 15 + 10 = 100. 100 ÷ 5 = <b>20</b>",why:"Mean = sum ÷ count.",mis:"",tip:""},
+{n:15,s:"B",m:3,type:"num",q:"Campaign A: 100,000 impressions, 1,000 clicks. Campaign B: 40,000 impressions, 800 clicks. (a) Calculate CTR for both. (b) Which performed better based on CTR?",parts:[{l:"a. CTR of A",v:1,u:"%",m:1},{l:"a. CTR of B",v:2,u:"%",m:1},{l:"b. Better campaign",choice:["Campaign A","Campaign B"],c:1,m:1}],
+ ans:"A = 1,000 ÷ 100,000 × 100 = <b>1%</b><br>B = 800 ÷ 40,000 × 100 = <b>2%</b><br><b>Campaign B</b> performed better on CTR.",why:"B had fewer clicks but twice the click rate.",mis:"Picking A because it has more total clicks.",tip:"Don't judge performance by totals — always consider the denominator."},
+{n:16,s:"B",m:1,type:"num",q:"A product had 1,200 active users last month and 1,500 this month. What was the percentage growth?",parts:[{l:"Growth",v:25,u:"%",m:1}],
+ ans:"300 ÷ 1,200 × 100 = <b>25%</b>",why:"(New − Old) ÷ Old × 100.",mis:"300 ÷ 1,500 = 20%.",tip:""},
+{n:17,s:"C",m:2,type:"mcq",ctx:"table",q:"Which month had the highest sign-up conversion rate?",opts:["January only","February only","January and February (tied)","April"],c:2,
+ ans:"<b>January and February — 5% each.</b><br>Jan 500/10,000 = 5% · Feb 600/12,000 = 5% · Mar 600/15,000 = 4% · Apr 560/16,000 = 3.5%",why:"Conversion is a rate, so compare sign-ups ÷ visitors, not sign-ups alone.",mis:"Choosing February because it had more sign-ups than January.",tip:""},
+{n:18,s:"C",m:2,type:"num",ctx:"table",q:"Calculate the sign-up conversion rate for March.",parts:[{l:"March conversion",v:4,u:"%",m:2}],
+ ans:"600 ÷ 15,000 × 100 = <b>4%</b>",why:"Sign-ups ÷ visitors × 100.",mis:"",tip:""},
+{n:19,s:"C",m:3,type:"written",ctx:"table",q:"What major trend do you observe from February to April?",
+ ans:"“From February to April, website traffic continued to increase, but sign-up conversion declined (5% → 3.5%). More importantly, paying customers decreased substantially (180 → 100) while support tickets increased (320 → 650). This suggests that higher traffic is not translating into successful customer adoption or monetization and may indicate an emerging customer-experience or product problem.”",why:"It identifies the <b>relationship between several metrics</b>, not one number. Also notice sign-up → paying conversion fell from 30% to about 18% (100 ÷ 560).",mis:"Only writing “customers decreased”.",tip:"",rub:"1 traffic ↑ vs conversion ↓ · 1 paying customers ↓ and tickets ↑ · 1 interpretation"},
+{n:20,s:"C",m:4,type:"written",ctx:"table",q:"Give two possible explanations for why website visitors increased while paying customers decreased.",
+ ans:"<b>1. Lower-quality traffic</b> — marketing may be attracting visitors less likely to become customers.<br><b>2. Product / onboarding problem</b> — users sign up but fail to complete setup or understand the product.<br><span class=\"muted\">Other valid answers: technical issues, pricing changes, poor landing-page experience, wrong audience targeting, product changes, increased friction, support problems.</span>",why:"Each explanation is plausible from the data and can be tested.",mis:"Claiming one explanation is definitely correct from this dataset alone.",tip:"",rub:"2 marks per explanation (1 cause + 1 reasoning)"},
+{n:21,s:"C",m:3,type:"written",ctx:"table",q:"Support tickets increased sharply from February to April. What would you investigate first? Give three investigation areas.",
+ ans:"<b>1. Ticket categories</b> — what are customers complaining about?<br><b>2. Customer segment</b> — new users, existing users or a specific customer type?<br><b>3. Product journey</b> — where are users getting stuck?<br><span class=\"muted\">Also valid: technical errors, onboarding completion, recent product changes, browser/device issues, marketing source, geography.</span>",why:"These narrow down what, who and where.",mis:"Saying “hire more agents” — that treats the symptom.",tip:"",rub:"1 mark per relevant area"},
+{n:22,s:"C",m:3,type:"written",ctx:"table",q:"Which month appears to have the biggest customer-experience concern, and why?",
+ ans:"<b>April.</b> It has the highest visitors but the lowest sign-up conversion (3.5%), the lowest paying customers (100) and the highest support tickets (650). Several negative CX indicators occur at the same time.",why:"The strongest candidate is where multiple warning signs coincide.",mis:"Choosing March because it had the biggest single jump in tickets — April is worse on every measure.",tip:"",rub:"1 April · 2 supporting evidence from at least two metrics"},
+{n:23,s:"C",m:3,type:"written",ctx:"table",q:"Based only on this dataset, can we conclude that increased website traffic caused the decline in paying customers? Explain.",
+ ans:"<b>No.</b> The data shows correlation, not necessarily causation. Traffic rose while paying customers fell, but other factors could explain the decline: traffic quality, product problems, pricing changes, customer-segment changes, marketing-campaign changes. Establishing causation needs further investigation or a controlled experiment.",why:"Correlation does not automatically mean causation.",mis:"Answering “yes” because the two moved in opposite directions at the same time.",tip:"",rub:"1 No · 1 correlation ≠ causation · 1 alternative factors or how to test"},
+{n:24,s:"D",m:2,type:"written",q:"What is Customer Experience?",
+ ans:"“Customer Experience is the overall perception and experience a customer has across all interactions with a company, product, or service throughout the customer journey.”",why:"Key phrase: <b>entire journey</b> — not just customer support.",mis:"Defining CX as customer support.",tip:"",rub:"1 overall perception · 1 across all interactions/journey"},
+{n:25,s:"D",m:2,type:"written",q:"What is the difference between Customer Experience and Customer Service?",
+ ans:"<b>Customer service</b> is the direct assistance provided when customers have questions or problems. <b>Customer experience</b> is much broader: marketing, website, product, onboarding, support, communication, billing, renewal and overall perception. Customer service is one part of the overall customer experience.",why:"Defines both and states the relationship.",mis:"Treating them as synonyms.",tip:"",rub:"1 both defined · 1 relationship stated"},
+{n:26,s:"D",m:4,type:"match",q:"Match each metric with its primary purpose.",rows:["NPS","CSAT","CES","Churn"],mopts:["A. Customer effort","B. Recommendation / loyalty","C. Satisfaction","D. Customers leaving"],c:[1,2,0,3],
+ ans:"NPS → <b>B</b> · CSAT → <b>C</b> · CES → <b>A</b> · Churn → <b>D</b>",why:"NPS asks about recommending; CSAT about satisfaction; CES about effort; churn counts customers leaving.",mis:"Swapping CSAT and NPS.",tip:""},
+{n:27,s:"D",m:2,type:"written",q:"What is CRM?",
+ ans:"CRM stands for <b>Customer Relationship Management</b>. A CRM system helps organizations manage and analyze customer information, interactions, sales activities, communications and relationships. Salesforce is a major example.",why:"Expands the acronym and explains the purpose.",mis:"",tip:"Naming Salesforce as an example shows role awareness.",rub:"1 full form · 1 purpose"},
+{n:28,s:"D",m:2,type:"written",q:"What is GA4 generally used for?",
+ ans:"GA4 = <b>Google Analytics 4</b>. It is used to analyze website/app user behavior and interactions — users, events, traffic sources, engagement, conversions and user journeys.",why:"Full form plus what it measures.",mis:"",tip:"",rub:"1 full form · 1 use with examples"},
+{n:29,s:"D",m:3,type:"written",q:"What is customer segmentation, and why is it useful?",
+ ans:"Dividing customers into meaningful groups based on characteristics or behavior — e.g. new, returning, high-value, inactive customers, by geography or product usage. Different groups have different needs, so segmentation enables <b>more relevant communication, better analysis and better targeting</b>.",why:"Definition + example + benefit.",mis:"",tip:"",rub:"1 definition · 1 example · 1 benefit"},
+{n:30,s:"E",m:5,type:"written",q:"Website traffic increased by 40%, but conversion rate decreased by 15%. As a CXSA analyst, what would you do? Give a structured answer.",
+ ans:"“First, I would verify that the data is accurate and that the conversion definition has not changed. Then I would segment traffic by source, device, geography, campaign and new versus returning users. I would analyze the conversion funnel to identify where the largest drop-off occurs. I would also investigate recent changes to landing pages, pricing, sign-up flow, technical performance and marketing targeting. Finally, I would form hypotheses, prioritize the most likely causes, test solutions such as A/B experiments, and monitor conversion after implementation.”",why:"It demonstrates <b>Verify → Segment → Funnel → Investigate → Hypothesize → Test → Measure</b>.",mis:"Answering “improve the website”.",tip:"Bonus insight: total conversions may still have risen (e.g. 2,000 → 2,380) — the new traffic converts worse.",rub:"1 verify · 1 segment · 1 funnel · 1 investigate changes · 1 hypothesis/test/measure"},
+{n:31,s:"E",m:5,type:"written",q:"Customer complaints increased by 30% in one month. Management asks: “What should we do?” What would your first five steps be?",
+ ans:"<b>1. Validate the data</b> — not a tracking/reporting change.<br><b>2. Categorize complaints</b> — product, billing, technical, onboarding, support, documentation.<br><b>3. Identify the largest contributor</b> — which category grew most.<br><b>4. Segment</b> — customer type, product, geography, device, new vs existing.<br><b>5. Find the root cause and act</b> — fix it, then measure whether complaints decrease.",why:"Framework: <b>Validate → Categorize → Segment → Root cause → Act → Measure</b>.",mis:"Starting with “retrain the support team”.",tip:"",rub:"1 mark per sensible, ordered step"},
+{n:32,s:"E",m:4,type:"written",q:"An email campaign has Open rate = 45% and CTR = 1.5%. What does this tell you? What would you investigate?",
+ ans:"<b>Interpretation:</b> the subject line/topic gets people to open, but few click. The problem appears to be after the open. Possible issues: weak CTA, poor content, irrelevant offer, poor message-to-audience fit, CTA placement, weak value proposition.<br><b>Investigate:</b> CTA wording, email content, audience segments, previous campaigns, device performance, landing page.",why:"Separates the two stages of the email funnel.",mis:"Calling the campaign successful because of the open rate.",tip:"",rub:"2 interpretation · 2 investigation areas"},
+{n:33,s:"E",m:3,type:"written",q:"A customer says: “Your product has many features, but I don't know what to use first.” What CX problem might this indicate? Suggest two possible solutions.",
+ ans:"<b>Problem:</b> poor onboarding / information overload / lack of product guidance.<br><b>Solutions:</b> (1) guided onboarding or a setup checklist; (2) personalized recommendations or contextual guidance. <span class=\"muted\">Also: better information architecture, product tours, a “Getting started” workflow, a simplified first-time experience.</span>",why:"Names the problem precisely and gives targeted fixes.",mis:"“Remove features.”",tip:"",rub:"1 problem · 1 per solution"},
+{n:34,s:"E",m:3,type:"written",q:"Customers who receive onboarding emails have a higher retention rate than customers who don't. Can you immediately conclude that onboarding emails cause higher retention? Why or why not?",
+ ans:"<b>No.</b> There may be correlation without causation. Customers who receive onboarding emails may already be more engaged, more motivated or different from those who don't. To test causality, compare similar customer groups or run a controlled experiment such as an <b>A/B test</b>.",why:"Identifies the possible difference between groups and proposes a test.",mis:"“Yes, the numbers prove it.”",tip:"",rub:"1 No · 1 groups may differ · 1 A/B test / controlled comparison"},
+{n:35,s:"F",m:2,type:"written",q:"What is prompt engineering?",
+ ans:"Prompt engineering is the practice of designing clear and effective instructions for AI systems to produce useful, relevant and controlled outputs. A good prompt often includes <b>context + task + constraints + output format</b>.",why:"Definition + what a good prompt contains.",mis:"",tip:"",rub:"1 definition · 1 components or purpose"},
+{n:36,s:"F",m:3,type:"written",q:"Which prompt is better and why? A: “Analyze these customer reviews.” B: “You are a customer experience analyst. Analyze the following 500 customer reviews. Group recurring complaints into categories, identify the five most common issues, estimate their frequency, and recommend one actionable solution for each issue. Present the results in a table.”",
+ ans:"<b>Prompt B.</b> Prompt A is vague. B defines the role, the data, the task, the number of issues, frequency, recommendations and output format, so the AI has a much clearer objective. “A good prompt reduces ambiguity and makes the expected output more specific and consistent.”",why:"Names concrete elements that B adds.",mis:"Saying “B is longer” without explaining what the extra detail does.",tip:"",rub:"1 chooses B · 2 reasons naming specific elements"},
+{n:37,s:"F",m:3,type:"written",q:"Write a prompt that asks an AI system to analyze customer feedback and identify the top three customer problems.",
+ ans:"“You are a customer experience analyst. Analyze the following customer feedback, group similar comments into categories, identify the three most common customer problems, estimate their frequency, and briefly explain the evidence for each problem. Present the results in a table.”",why:"Role + task + quantity + measure + evidence + format.",mis:"",tip:"",rub:"1 role/context · 1 clear task (top 3) · 1 output format/constraints"},
+{n:38,s:"F",m:3,type:"written",q:"A company wants to use AI to analyze thousands of customer support tickets. Give three ways AI could help.",
+ ans:"<b>1. Classification</b> — billing / technical / product / account / other.<br><b>2. Sentiment analysis</b> — positive / neutral / negative.<br><b>3. Pattern detection</b> — recurring problems across thousands of tickets.<br><span class=\"muted\">Also: summarization, priority detection, response drafting, trend identification, knowledge-base generation.</span>",why:"Three distinct, concrete uses.",mis:"",tip:"",rub:"1 mark per use"},
+{n:39,s:"F",m:2,type:"written",q:"Give two risks or limitations of using AI for customer-data analysis.",
+ ans:"<b>1. Incorrect analysis</b> — AI can produce inaccurate or misleading conclusions.<br><b>2. Privacy / security</b> — customer data may be sensitive and must be handled appropriately.<br><span class=\"muted\">Also: bias, lack of context, hallucination, over-reliance on automation, poor input → poor output.</span>",why:"",mis:"",tip:"",rub:"1 mark per risk"},
+{n:40,s:"F",m:2,type:"written",q:"You have 1,000 customer comments. Write a prompt that asks AI to classify comments, identify sentiment, find recurring problems, prioritize the problems and recommend actions.",
+ ans:"“You are a customer experience analyst. Analyze these 1,000 customer comments. Classify each comment by issue category and sentiment, identify recurring problems, rank the problems by frequency and severity, and recommend actionable solutions for the top five issues. Present the results in a concise table.”",why:"Covers all five required tasks plus role and format.",mis:"Leaving out one of the five tasks.",tip:"",rub:"1 all five tasks · 1 role/format"}
+];
+var AUTO={mcq:1,num:1,match:1};
+
+/* ================= MOCK ENGINE ================= */
+var st=store.get("cx-mock",null);
+if(!st||!st.a) st={a:{},chk:{},rev:{},self:{},rem:5400,i:0,fin:false};
+var running=false,tick=null;
+function save(){store.set("cx-mock",st)}
+function numv(x){if(x==null)return NaN;return parseFloat(String(x).replace(/[%,$\s]/g,""))}
+function partOk(p,val){if(p.choice)return val===p.c;var x=numv(val);return !isNaN(x)&&Math.abs(x-p.v)<=0.051}
+function score(q){
+  if(q.type==="written"){return st.self[q.n]==null?null:st.self[q.n]}
+  if(!st.chk[q.n])return null;
+  var a=st.a[q.n];
+  if(q.type==="mcq")return a===q.c?q.m:0;
+  if(q.type==="match"){var s=0;q.c.forEach(function(c,i){if(a&&a[i]===c)s++});return s}
+  if(q.type==="num"){var t=0;q.parts.forEach(function(p,i){if(a&&partOk(p,a[i]))t+=p.m});return t}
+  return null;
+}
+function answered(q){var a=st.a[q.n];if(q.type==="written")return !!(a&&a.trim())||st.self[q.n]!=null;if(q.type==="mcq")return a!=null;if(Array.isArray(a))return a.some(function(v){return v!=null&&v!==""});return false}
+function fmt(s){s=Math.max(0,s);var m=Math.floor(s/60),x=s%60;return (m<10?"0":"")+m+":"+(x<10?"0":"")+x}
+
+function buildMock(){
+  var root=$("#mock-root");
+  root.innerHTML=
+  '<div class="mbar" role="region" aria-label="Exam controls">'+
+   '<span class="timer" id="tm" aria-live="off">'+fmt(st.rem)+'</span>'+
+   '<button class="btn sm pri" id="tmBtn">Start timer</button>'+
+   '<span class="mstat" id="mAns"></span><span class="mstat" id="mScore"></span>'+
+   '<div class="mprog" aria-hidden="true"><i id="mProg"></i></div></div>'+
+  '<div id="mResult"></div>'+
+  '<details id="qgridBox"><summary>All questions · jump to any</summary><div class="in"><div class="qgrid" id="qgrid"></div></div></details>'+
+  '<article class="c" id="qcard" aria-live="polite"></article>'+
+  '<div class="row" style="justify-content:space-between;margin-top:6px"><button class="btn" id="finBtn">Finish &amp; score</button><button class="btn sm" id="resetBtn">Reset exam</button></div>';
+  if(window.matchMedia("(min-width:900px)").matches)$("#qgridBox").open=true;
+  $("#tmBtn").onclick=toggleTimer;
+  $("#finBtn").onclick=finish;
+  var rb=$("#resetBtn"),armed=false;
+  rb.onclick=function(){if(!armed){armed=true;rb.textContent="Tap again to reset";setTimeout(function(){armed=false;rb.textContent="Reset exam"},3000);return}
+    stopTimer();st={a:{},chk:{},rev:{},self:{},rem:5400,i:0,fin:false};save();$("#mResult").innerHTML="";renderAll();$("#tmBtn").textContent="Start timer";toast("Exam reset");rb.textContent="Reset exam";armed=false};
+  renderAll();
+}
+function toggleTimer(){if(running)stopTimer();else startTimer()}
+function startTimer(){if(st.rem<=0)return;running=true;$("#tmBtn").textContent="Pause timer";tick=setInterval(function(){st.rem--;updTimer();if(st.rem%10===0)save();if(st.rem<=0){stopTimer();toast("Time's up — finish and score your exam");}},1000)}
+function stopTimer(){running=false;clearInterval(tick);var b=$("#tmBtn");if(b)b.textContent=st.rem>0?"Resume timer":"Time's up";if(b&&st.rem===5400)b.textContent="Start timer";save()}
+function updTimer(){var t=$("#tm");if(!t)return;t.textContent=fmt(st.rem);t.classList.toggle("low",st.rem<=600)}
+function renderAll(){updTimer();renderGrid();renderQ();renderStats()}
+function renderStats(){
+  var done=Q.filter(answered).length,got=0,poss=0;
+  Q.forEach(function(q){var s=score(q);if(s!=null){got+=s;poss+=q.m}});
+  $("#mAns").textContent="Answered "+done+"/40";
+  $("#mScore").textContent=poss?("Marked: "+got+"/"+poss):"Marked: —";
+  $("#mProg").style.width=(done/40*100)+"%";
+}
+function renderGrid(){
+  var g=$("#qgrid"),h="",last="";
+  Q.forEach(function(q,i){
+    if(q.s!==last){last=q.s;h+='<div class="sec">Section '+q.s+' · '+SEC[q.s].t+' · '+SEC[q.s].m+' marks</div>'}
+    var s=score(q),cls="";
+    if(s!=null)cls=s===q.m?"full":(s===0?"zero":"pt");else if(answered(q))cls="ans";
+    if(i===st.i)cls+=" cur";
+    h+='<button class="'+cls+'" data-i="'+i+'" aria-label="Question '+q.n+(s!=null?", scored "+s+" of "+q.m:answered(q)?", answered":"")+'"'+(i===st.i?' aria-current="true"':'')+'>'+q.n+'</button>';
+  });
+  g.innerHTML=h;
+  $$("button",g).forEach(function(b){b.onclick=function(){st.i=+b.dataset.i;save();renderGrid();renderQ();$("#qcard").scrollIntoView({block:"start"})}});
+}
+function renderQ(){
+  var q=Q[st.i],a=st.a[q.n],chk=!!st.chk[q.n],rev=!!st.rev[q.n],h="";
+  var first=(st.i===0||Q[st.i-1].s!==q.s);
+  if(first)h+='<div class="b m"><span class="lbl">Section '+q.s+' · '+SEC[q.s].m+' marks · '+SEC[q.s].time+'</span><p><b>'+SEC[q.s].t+'</b></p></div>';
+  h+='<div class="qmeta">Question '+q.n+' of 40 · Section '+q.s+' · '+q.m+' mark'+(q.m>1?'s':'')+'</div>';
+  if(q.ctx)h+='<div class="ctx">'+CTX[q.ctx]+'</div>';
+  h+='<p class="qtext">'+q.q+'</p>';
+  if(q.type==="mcq"){
+    h+='<fieldset class="opts" style="border:0;padding:0;margin:8px 0"><legend class="sr">Options</legend>';
+    q.opts.forEach(function(o,i){var cls="";if(chk){if(i===q.c)cls="right";else if(i===a)cls="wrong"}
+      h+='<label class="opt '+cls+'"><input type="radio" name="o'+q.n+'" value="'+i+'"'+(a===i?" checked":"")+(chk?" disabled":"")+'><span><b>'+String.fromCharCode(65+i)+'.</b> '+esc(o)+'</span></label>'});
+    h+='</fieldset>';
+  }else if(q.type==="num"){
+    q.parts.forEach(function(p,i){var v=a&&a[i]!=null?a[i]:"",fb="";
+      if(chk){var ok=partOk(p,a&&a[i]);fb='<span class="fb '+(ok?"y":"n")+'">'+(ok?"✓ Correct":"✗ Answer: "+(p.choice?p.choice[p.c]:p.v+(p.u||"")))+'</span>'}
+      h+='<div class="part"><label for="p'+q.n+'_'+i+'">'+p.l+' <span class="muted small">('+p.m+' mark'+(p.m>1?'s':'')+')</span></label><div class="in-row">';
+      if(p.choice){h+='<select id="p'+q.n+'_'+i+'" data-i="'+i+'"'+(chk?" disabled":"")+'><option value="">Choose…</option>';p.choice.forEach(function(c,ci){h+='<option value="'+ci+'"'+(v===ci?" selected":"")+'>'+c+'</option>'});h+='</select>'}
+      else h+='<input type="text" inputmode="decimal" id="p'+q.n+'_'+i+'" data-i="'+i+'" value="'+esc(v)+'"'+(chk?" disabled":"")+' placeholder="Your answer"><span>'+(p.u||"")+'</span>';
+      h+='</div>'+fb+'</div>'});
+  }else if(q.type==="match"){
+    q.rows.forEach(function(r,i){var v=a&&a[i]!=null?a[i]:"",fb="";
+      if(chk){var ok=a&&a[i]===q.c[i];fb='<span class="fb '+(ok?"y":"n")+'">'+(ok?"✓":"✗ "+q.mopts[q.c[i]].charAt(0))+'</span>'}
+      h+='<div class="mrow"><label for="m'+i+'"><b>'+r+'</b></label><span class="row"><select id="m'+i+'" data-i="'+i+'"'+(chk?" disabled":"")+' style="max-width:230px"><option value="">Choose…</option>';
+      q.mopts.forEach(function(o,oi){h+='<option value="'+oi+'"'+(v===oi?" selected":"")+'>'+o+'</option>'});
+      h+='</select>'+fb+'</span></div>'});
+  }else{
+    h+='<label class="sr" for="ta">Your answer</label><textarea id="ta" placeholder="Write your answer…">'+esc(a||"")+'</textarea>';
+    if(q.wc)h+='<div class="wc" id="wc"></div>';
+  }
+  if(q.type!=="written"){
+    h+='<div class="row" style="margin-top:12px">'+(chk?'<span class="fb y" style="font-weight:700">Checked · '+score(q)+'/'+q.m+' marks</span>':'<button class="btn pri" id="chkBtn">Check answer</button>')+'</div>';
+    if(chk)h+=ansBox(q,false);
+  }else{
+    h+='<div class="row" style="margin-top:12px">'+(rev?'':'<button class="btn pri" id="revBtn">Show answer</button>')+'</div>';
+    if(rev){h+=ansBox(q,true)}
+  }
+  h+='<div class="qnav"><button class="btn" id="prevQ"'+(st.i===0?" disabled":"")+'>Previous</button><button class="btn" id="nextQ"'+(st.i===Q.length-1?" disabled":"")+'>Next question</button></div>';
+  var card=$("#qcard");card.innerHTML=h;
+  // bind
+  if(q.type==="mcq")$$("input",card).forEach(function(r){r.onchange=function(){st.a[q.n]=+r.value;save();renderGrid();renderStats()}});
+  if(q.type==="num"||q.type==="match")$$("input,select",card).forEach(function(el){var ev=el.tagName==="SELECT"?"onchange":"oninput";el[ev]=function(){var arr=st.a[q.n]||[];var i=+el.dataset.i;arr[i]=el.tagName==="SELECT"?(el.value===""?null:+el.value):el.value;st.a[q.n]=arr;save();renderGrid();renderStats()}});
+  var ta=$("#ta",card);
+  if(ta){var wc=function(){if(!q.wc)return;var n=(ta.value.trim().match(/\S+/g)||[]).length;$("#wc").textContent=n+" words · target "+q.wc[0]+"–"+q.wc[1]};wc();ta.oninput=function(){st.a[q.n]=ta.value;save();wc();renderStats()};ta.onblur=function(){renderGrid()}}
+  var cb=$("#chkBtn",card);if(cb)cb.onclick=function(){st.chk[q.n]=true;save();renderQ();renderGrid();renderStats()};
+  var rvb=$("#revBtn",card);if(rvb)rvb.onclick=function(){st.rev[q.n]=true;save();renderQ()};
+  $$(".selfmark button",card).forEach(function(b){b.onclick=function(){st.self[q.n]=+b.dataset.v;save();renderQ();renderGrid();renderStats()}});
+  $("#prevQ",card).onclick=function(){if(st.i>0){st.i--;save();renderGrid();renderQ();card.scrollIntoView({block:"start"})}};
+  $("#nextQ",card).onclick=function(){if(st.i<Q.length-1){st.i++;save();renderGrid();renderQ();card.scrollIntoView({block:"start"})}};
+}
+function ansBox(q,self){
+  var h='<div class="ansbox"><div class="b ok"><span class="lbl">Answer</span><p>'+q.ans+'</p></div>';
+  if(q.rub)h+='<div class="b p"><span class="lbl">Marking guide (practice)</span><p>'+q.rub+'</p></div>';
+  if(q.mis)h+='<div class="b x"><span class="lbl">Common mistake</span><p>'+q.mis+'</p></div>';
+  if(self){h+='<p style="margin-top:12px"><b>Mark yourself:</b></p><div class="selfmark" role="group" aria-label="Self-mark out of '+q.m+'">';
+    for(var v=0;v<=q.m;v++)h+='<button data-v="'+v+'" aria-pressed="'+(st.self[q.n]===v)+'">'+v+'</button>';
+    h+='</div><p class="small muted">out of '+q.m+'. Full explanation in Chapter 12.</p>'}
+  return h+'</div>';
+}
+function finish(){
+  stopTimer();Q.forEach(function(q){if(AUTO[q.type])st.chk[q.n]=true});st.fin=true;save();
+  var tot=0,pend=[],bySec={};
+  Object.keys(SEC).forEach(function(k){bySec[k]=0});
+  Q.forEach(function(q){var s=score(q);if(s==null)pend.push(q.n);else{tot+=s;bySec[q.s]+=s}});
+  var band=tot>=90?"Excellent — very strong preparation":tot>=80?"Very good":tot>=70?"Good, but revise weak areas":tot>=60?"Average — needs targeted preparation":tot>=50?"Risky":"Needs substantial revision";
+  var h='<article class="c"><h2>Your result</h2><p class="res-big">'+tot+'<span class="muted" style="font-size:1rem"> / 100</span></p><p><b>'+band+'</b></p>';
+  if(pend.length)h+='<div class="b w"><span class="lbl">Not yet marked</span><p>Written questions '+pend.join(", ")+' still need self-marking. Open each, press Show answer, and mark it — the total will update.</p></div>';
+  Object.keys(SEC).forEach(function(k){h+='<div class="secbar"><span>Section '+k+' · '+SEC[k].t+'</span><span class="num">'+bySec[k]+' / '+SEC[k].m+'</span><div class="bar"><i style="width:'+(bySec[k]/SEC[k].m*100)+'%"></i></div></div>'});
+  h+='<details><summary>Score bands</summary><div class="in"><div class="tw"><table><tbody><tr><td class="num">90–100</td><td>Excellent</td></tr><tr><td class="num">80–89</td><td>Very good</td></tr><tr><td class="num">70–79</td><td>Good, but revise weak areas</td></tr><tr><td class="num">60–69</td><td>Average — targeted preparation</td></tr><tr><td class="num">50–59</td><td>Risky</td></tr><tr><td class="num">&lt;50</td><td>Needs substantial revision</td></tr></tbody></table></div></div></details>';
+  h+='<p class="small">Beyond the score, check you can: read data · calculate basic metrics · explain what the data means · separate evidence from assumptions · recommend an action.</p><div class="row"><a class="btn sm" href="#ch-12">Review the answer key</a></div></article>';
+  $("#mResult").innerHTML=h;renderGrid();renderQ();renderStats();$("#mResult").scrollIntoView({block:"start"});
+}
+
+/* ================= ANSWER KEY ================= */
+function buildKey(){
+  var h="",last="";
+  Q.forEach(function(q){
+    if(q.s!==last){last=q.s;h+='<h2 style="margin-top:26px">Section '+q.s+' · '+SEC[q.s].t+' <span class="muted small">('+SEC[q.s].m+' marks)</span></h2>';
+      if(q.s==="A")h+='<details><summary>Paragraph used in Q5–Q6</summary><div class="in">'+CTX.para+'</div></details>';
+      if(q.s==="C")h+='<details><summary>Dataset used in Q17–Q23</summary><div class="in">'+CTX.table+'</div></details>'}
+    h+='<article class="c" id="k-q'+q.n+'"><h3>Q'+q.n+' · '+q.m+' mark'+(q.m>1?'s':'')+'</h3><p>'+q.q+'</p>';
+    if(q.opts)h+='<ol type="A" class="small">'+q.opts.map(function(o){return '<li>'+esc(o)+'</li>'}).join("")+'</ol>';
+    if(q.type==="match")h+='<p class="small">'+q.mopts.join(" · ")+'</p>';
+    h+='<details class="reveal"><summary>Reveal answer &amp; explanation</summary><div class="in">';
+    h+='<div class="b ok"><span class="lbl">Correct answer</span><p>'+q.ans+'</p></div>';
+    if(q.why)h+='<div class="b m"><span class="lbl">Why it is correct</span><p>'+q.why+'</p></div>';
+    if(q.rub)h+='<div class="b p"><span class="lbl">Marking guide (practice)</span><p>'+q.rub+'</p></div>';
+    if(q.mis)h+='<div class="b x"><span class="lbl">Common mistake</span><p>'+q.mis+'</p></div>';
+    if(q.tip)h+='<div class="b t"><span class="lbl">Exam tip</span><p>'+q.tip+'</p></div>';
+    h+='</div></details></article>';
+  });
+  $("#key-root").innerHTML=h;
+}
+
+/* ================= NAV ================= */
+var doneSet=store.get("cx-done",[]);
+function buildNav(){
+  var h="";chapters.forEach(function(c,i){h+='<a class="nl" href="#'+c.id+'" data-id="'+c.id+'"><span class="n">'+(i+1<10?"0":"")+(i+1)+'</span>'+c.dataset.title+'<span class="d" aria-label="'+(doneSet.indexOf(c.id)>-1?"complete":"")+'">'+(doneSet.indexOf(c.id)>-1?"✓":"")+'</span></a>'});
+  $("#navList").innerHTML=h;
+  $("#ovpText").textContent=doneSet.length+" of "+N+" chapters complete";
+  $("#ovpBar").style.width=(doneSet.length/N*100)+"%";
+}
+function buildJumps(){
+  chapters.concat(views).forEach(function(sec){
+    var hs=$$(".c > h2",sec);if(sec.id==="ch-12")hs=$$("#key-root > h2",sec);
+    if(hs.length<2)return;
+    var nav=document.createElement("nav");nav.className="jump";nav.setAttribute("aria-label","Jump to");
+    hs.forEach(function(h2,i){var tgt=h2.closest(".c")||h2;if(!tgt.id)tgt.id=sec.id+"-j"+i;var a=document.createElement("a");a.href="#"+sec.id+"~"+tgt.id;a.textContent=h2.textContent.replace(/\(.*?\)/g,"").trim();nav.appendChild(a)});
+    var lede=$(".lede",sec);lede.parentNode.insertBefore(nav,lede.nextSibling);
+  });
+}
+var cur=null;
+function show(id,anchor){
+  var el=document.getElementById(id);
+  if(!el||!(el.classList.contains("ch")||el.classList.contains("view"))){el=chapters[0];}
+  chapters.concat(views).forEach(function(s){s.hidden=(s!==el)});
+  cur=el;var i=chapters.indexOf(el);
+  $("#pos").textContent=i>-1?("Chapter "+(i+1)+" of "+N):el.dataset.title;
+  $$(".side a.nl").forEach(function(a){if(a.dataset.id===el.id)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  var qb=$("#quickBtn");if(el.id==="v-quick")qb.setAttribute("aria-current","page");else qb.removeAttribute("aria-current");
+  var pg=$("#pager"),h="";
+  if(i>-1){if(i>0)h+='<a class="prev" href="#'+chapters[i-1].id+'"><small>Previous</small><span>'+chapters[i-1].dataset.title+'</span></a>';
+    if(i<N-1)h+='<a class="next" href="#'+chapters[i+1].id+'"><small>Next · Chapter '+(i+2)+'</small><span>'+chapters[i+1].dataset.title+'</span></a>'}
+  else h+='<a class="next" href="#'+(store.get("cx-lastch","ch-1"))+'"><small>Back to</small><span>Chapters</span></a>';
+  pg.innerHTML=h;
+  var db=$("#donebar");db.hidden=i<0;
+  if(i>-1){updDone();store.set("cx-lastch",el.id)}
+  if(el.id==="v-mine")renderMine();
+  store.set("cx-last",el.id);
+  document.title=el.dataset.title+" · CXSA Exam Playbook";
+  closeMenu();
+  var t=anchor&&document.getElementById(anchor);
+  if(t){var p=t.closest("details");if(p)p.open=true;setTimeout(function(){t.scrollIntoView({block:"start"});if(t.classList.contains("c")){t.classList.remove("flash");void t.offsetWidth;t.classList.add("flash")}if(pendingHl){highlightIn(t,pendingHl);pendingHl=null}},30)}
+  else{window.scrollTo(0,0);var h1=$("h1",el);if(h1){h1.setAttribute("tabindex","-1");h1.focus({preventScroll:true})}}
+  onScroll();
+}
+function route(){var h=decodeURIComponent(location.hash.slice(1));if(!h){show(store.get("cx-last","ch-1"));return}var p=h.split("~");show(p[0],p[1])}
+window.addEventListener("hashchange",route);
+function updDone(){var d=doneSet.indexOf(cur.id)>-1,b=$("#doneBtn");b.textContent=d?"✓ Chapter complete":"Mark chapter complete";b.classList.toggle("done",d);b.setAttribute("aria-pressed",d);$("#doneText").textContent=d?"Nice work. Keep going.":"Finished this chapter?"}
+$("#doneBtn").onclick=function(){if(!cur)return;var k=doneSet.indexOf(cur.id);if(k>-1)doneSet.splice(k,1);else doneSet.push(cur.id);store.set("cx-done",doneSet);buildNav();$$(".side a.nl").forEach(function(a){if(a.dataset.id===cur.id)a.setAttribute("aria-current","page")});updDone();if(k<0)toast("Chapter marked complete")};
+
+/* menu */
+var side=$("#side"),scrim=$("#scrim"),mb=$("#menuBtn");
+function openMenu(){side.classList.add("open");scrim.hidden=false;mb.setAttribute("aria-expanded","true");var a=$("a.nl[aria-current]",side)||$("a.nl",side);if(a)a.focus()}
+function closeMenu(){if(!side.classList.contains("open"))return;side.classList.remove("open");scrim.hidden=true;mb.setAttribute("aria-expanded","false")}
+mb.onclick=openMenu;$("#closeBtn").onclick=function(){closeMenu();mb.focus()};scrim.onclick=closeMenu;
+
+/* reading progress */
+function onScroll(){var d=document.documentElement,mx=d.scrollHeight-d.clientHeight;$("#rpbar").style.width=(mx>0?Math.min(100,d.scrollTop/mx*100):0)+"%"}
+window.addEventListener("scroll",onScroll,{passive:true});
+
+/* ================= BOOKMARKS ================= */
+var bms=store.get("cx-bm",[]);
+function addBookmarks(){
+  chapters.forEach(function(ch){$$(".c[id]",ch).forEach(function(c){
+    var h=$("h2,h3",c);if(!h)return;var b=document.createElement("button");b.className="bm";b.innerHTML=STAR;
+    var on=bms.indexOf(c.id)>-1;b.setAttribute("aria-pressed",on);b.setAttribute("aria-label",(on?"Remove bookmark: ":"Bookmark: ")+h.textContent);
+    b.onclick=function(){var k=bms.indexOf(c.id);if(k>-1){bms.splice(k,1);toast("Removed from My Revision")}else{bms.push(c.id);toast("Added to My Revision")}store.set("cx-bm",bms);var o=k<0;b.setAttribute("aria-pressed",o);b.setAttribute("aria-label",(o?"Remove bookmark: ":"Bookmark: ")+h.textContent);updBm()};
+    c.insertBefore(b,c.firstChild)})});
+  updBm();
+}
+function updBm(){$("#bmCount").textContent=bms.length?bms.length:""}
+function cleanClone(el){var c=el.cloneNode(true);$$(".bm",c).forEach(function(x){x.remove()});if(c.id)c.removeAttribute("id");$$("[id]",c).forEach(function(x){x.removeAttribute("id")});return c}
+function renderMine(){
+  var r=$("#mine-root");r.innerHTML="";
+  var valid=bms.filter(function(id){return document.getElementById(id)});
+  if(!valid.length){r.innerHTML='<article class="c"><h2>No bookmarks yet</h2><p>Tap the ☆ on any concept card to save it here for revision before the exam.</p><div class="row"><a class="btn pri" href="#ch-3">Start with CX Metrics</a></div></article>';return}
+  valid.forEach(function(id){var src=document.getElementById(id),ch=src.closest("section.ch"),c=cleanClone(src);
+    var bar=document.createElement("div");bar.className="row";bar.style.marginTop="10px";
+    bar.innerHTML='<a class="btn sm" href="#'+ch.id+'~'+id+'">Open in '+ch.dataset.title+'</a>';
+    var rm=document.createElement("button");rm.className="btn sm";rm.textContent="Remove";rm.onclick=function(){bms.splice(bms.indexOf(id),1);store.set("cx-bm",bms);var ob=$(".bm",src);if(ob)ob.setAttribute("aria-pressed","false");updBm();renderMine()};
+    bar.appendChild(rm);c.appendChild(bar);r.appendChild(c)});
+}
+
+/* ================= QUICK ================= */
+function buildQuick(){var t=$("#quick-sheet");var mins=[4,4,3];$$("#ch-13 .c").forEach(function(c,i){var x=cleanClone(c);var h=$("h2",x);if(h)h.textContent+=" · "+(mins[i]||3)+" min";t.appendChild(x)})}
+
+/* ================= SEARCH ================= */
+var index=[],sel=0,pendingHl=null;
+function buildIndex(){index=[];chapters.forEach(function(ch,i){$$(".c[id]",ch).forEach(function(c){var h=$("h2,h3",c);if(!h)return;var parts=[],w=document.createTreeWalker(c,NodeFilter.SHOW_TEXT,null),n;while((n=w.nextNode())){if(h.contains(n))continue;var v=n.nodeValue.trim();if(v)parts.push(v)}var raw=parts.join(" ").replace(/\s+/g," ").replace(/ ([.,;:!?)])/g,"$1").trim();index.push({id:ch.id,a:c.id,ch:i+1,ct:ch.dataset.title,t:h.textContent.trim(),raw:raw,low:raw.toLowerCase()})})})}
+function terms(q){return q.trim().toLowerCase().split(/\s+/).filter(function(t){return t.length>0})}
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}
+function search(q){
+  var ts=terms(q),out=[];if(q.trim().length<2||!ts.length)return out;
+  index.forEach(function(it){var tl=it.t.toLowerCase(),s=0;
+    for(var k=0;k<ts.length;k++){var t=ts[k],inT=tl.indexOf(t)>-1,cnt=it.low.split(t).length-1;if(!inT&&!cnt)return;s+=(inT?14:0)+(tl.indexOf(t)===0?8:0)+(tl===t?10:0)+Math.min(cnt,6)}
+    out.push({it:it,s:s})});
+  out.sort(function(a,b){return b.s-a.s});return out.slice(0,30);
+}
+function hl(text,ts){var e=esc(text);var re=new RegExp("("+ts.map(function(t){return escRe(esc(t))}).join("|")+")","ig");return e.replace(re,"<mark>$1</mark>")}
+function snippet(it,ts){var p=-1;ts.forEach(function(t){var x=it.low.indexOf(t);if(x>-1&&(p<0||x<p))p=x});var s=Math.max(0,p-55);
+  if(s>0){var sp=it.raw.indexOf(" ",s);if(sp>-1&&sp<p)s=sp+1}var txt=it.raw.slice(s,s+160);return (s>0?"… ":"")+hl(txt,ts)+(s+160<it.raw.length?" …":"")}
+var sov=$("#sov"),sq=$("#sq"),sres=$("#sres"),lastFocus=null;
+function hint(){var rec=store.get("cx-recent",[]),h='<div class="shint">';
+  if(rec.length)h+='<p>Recent</p><div class="chips">'+rec.map(function(w){return '<button data-w="'+esc(w)+'">'+esc(w)+'</button>'}).join("")+'</div>';
+  h+='<p>Try</p><div class="chips">'+["NPS","CTR","Churn","Prompt","Conversion","GA4","Ratio","5 Whys","Correlation"].map(function(w){return '<button data-w="'+w+'">'+w+'</button>'}).join("")+'</div></div>';
+  sres.innerHTML=h;$$("[data-w]",sres).forEach(function(b){b.onclick=function(){sq.value=b.dataset.w;doSearch();sq.focus()}})}
+function doSearch(){var v=sq.value;sel=0;if(v.trim().length<2){hint();return}var r=search(v),ts=terms(v);
+  if(!r.length){sres.innerHTML='<div class="shint">No matches for “'+esc(v.trim())+'”. Try a shorter word, such as “churn” or “prompt”.</div>';return}
+  var groups={},order=[];r.forEach(function(x){if(!groups[x.it.id]){groups[x.it.id]=[];order.push(x.it.id)}groups[x.it.id].push(x)});
+  var h='<p class="scount">'+r.length+' result'+(r.length>1?"s":"")+'</p>',k=0;
+  order.forEach(function(id){var g=groups[id];h+='<div class="sgh">Chapter '+g[0].it.ch+' · '+esc(g[0].it.ct)+'</div>';
+    g.forEach(function(x){h+='<a class="sitem" role="option" id="sr'+(k++)+'" href="#'+x.it.id+'~'+x.it.a+'"><b>'+hl(x.it.t,ts)+'</b><span>'+snippet(x.it,ts)+'</span></a>'})});
+  sres.innerHTML=h;markSel(false)}
+function items(){return $$("a.sitem",sres)}
+function markSel(scroll){items().forEach(function(a,i){var on=i===sel;a.classList.toggle("on",on);a.setAttribute("aria-selected",on);if(on){sq.setAttribute("aria-activedescendant",a.id);if(scroll)a.scrollIntoView({block:"nearest"})}})}
+function openResult(a){var v=sq.value.trim(),rec=store.get("cx-recent",[]);if(v.length>1){rec=[v].concat(rec.filter(function(x){return x.toLowerCase()!==v.toLowerCase()})).slice(0,5);store.set("cx-recent",rec)}
+  pendingHl=terms(v);closeSearch(true);go(a.getAttribute("href").slice(1))}
+function openSearch(){closeRead();lastFocus=document.activeElement;sov.hidden=false;document.body.classList.add("lock");sq.value="";hint();setTimeout(function(){sq.focus()},20)}
+function closeSearch(nav){if(sov.hidden)return;sov.hidden=true;document.body.classList.remove("lock");sq.removeAttribute("aria-activedescendant");if(!nav&&lastFocus)lastFocus.focus()}
+$("#searchBtn").onclick=openSearch;$("#sclose").onclick=function(){closeSearch()};
+sq.oninput=doSearch;
+sq.onkeydown=function(e){var it=items();
+  if(e.key==="ArrowDown"&&it.length){e.preventDefault();sel=Math.min(sel+1,it.length-1);markSel(true)}
+  else if(e.key==="ArrowUp"&&it.length){e.preventDefault();sel=Math.max(sel-1,0);markSel(true)}
+  else if(e.key==="Enter"){e.preventDefault();if(it[sel])openResult(it[sel])}};
+sres.addEventListener("click",function(e){var a=e.target.closest("a.sitem");if(!a)return;e.preventDefault();openResult(a)});
+sres.addEventListener("mousemove",function(e){var a=e.target.closest("a.sitem");if(!a)return;var i=items().indexOf(a);if(i>-1&&i!==sel){sel=i;markSel(false)}});
+sov.addEventListener("click",function(e){if(e.target===sov)closeSearch()});
+function go(h){if(decodeURIComponent(location.hash.slice(1))===h)route();else location.hash=h}
+function highlightIn(el,ts){if(!ts||!ts.length)return;var re=new RegExp("("+ts.map(escRe).join("|")+")","ig"),w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null),nodes=[],n;
+  while((n=w.nextNode())){if(n.parentNode.closest("button,mark,svg"))continue;re.lastIndex=0;if(re.test(n.nodeValue))nodes.push(n)}
+  var marks=[];nodes.forEach(function(t){var f=document.createDocumentFragment(),parts=t.nodeValue.split(re);parts.forEach(function(p,i){if(i%2){var m=document.createElement("mark");m.className="sh";m.textContent=p;marks.push(m);f.appendChild(m)}else if(p)f.appendChild(document.createTextNode(p))});t.parentNode.replaceChild(f,t)});
+  setTimeout(function(){marks.forEach(function(m){if(m.parentNode){var p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize()}})},5000)}
+
+/* ================= READING SETTINGS ================= */
+var FS=[15.5,17,18.5,20.5],LH=[1.55,1.72,1.9],rs=store.get("cx-read",{fs:1,lh:1,th:"auto"}),rp=$("#readPanel"),rb=$("#readBtn");
+function applyRead(){var r=document.documentElement;r.style.setProperty("--fs",FS[rs.fs]+"px");r.style.setProperty("--lh",LH[rs.lh]);if(rs.th==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",rs.th);
+  $$(".seg",rp).forEach(function(s){var k=s.dataset.k;$$("button",s).forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.v)===String(rs[k]))})})}
+$$(".seg button",rp).forEach(function(b){b.onclick=function(){var k=b.parentNode.dataset.k;rs[k]=k==="th"?b.dataset.v:+b.dataset.v;store.set("cx-read",rs);applyRead();onScroll()}});
+function closeRead(){if(rp.hidden)return;rp.hidden=true;rb.setAttribute("aria-expanded","false")}
+rb.onclick=function(e){e.stopPropagation();if(rp.hidden){rp.hidden=false;rb.setAttribute("aria-expanded","true");var f=$("button[aria-pressed=true]",rp);if(f)f.focus()}else closeRead()};
+document.addEventListener("click",function(e){if(!rp.hidden&&!rp.contains(e.target)&&e.target!==rb)closeRead()});
+applyRead();
+
+/* same-link clicks (e.g. jump chips) still navigate */
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||a.closest("#sres"))return;var h=a.getAttribute("href").slice(1);if(h&&decodeURIComponent(location.hash.slice(1))===h){e.preventDefault();route()}});
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"){if(!sov.hidden)closeSearch();else if(!rp.hidden){closeRead();rb.focus()}else closeMenu()}
+  var tag=(e.target.tagName||"").toLowerCase();
+  if((e.key==="/"||((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"))&&tag!=="input"&&tag!=="textarea"&&tag!=="select"&&sov.hidden){e.preventDefault();openSearch()}
+});
+
+/* ================= CHECKLIST ================= */
+var CL=["I understand CX","I know the major CX metrics","I can calculate conversion rate","I can calculate CTR","I understand churn and retention","I can interpret tables","I can interpret graphs","I understand correlation vs causation","I can perform basic percentage calculations","I understand CRM","I understand GA4","I understand prompt engineering","I can write a good analytical answer","I can summarize a paragraph","I completed the mock exam"];
+var ck=store.get("cx-check",[]);
+function buildCheck(){var ul=$("#checkList");ul.innerHTML=CL.map(function(t,i){return '<li><label><input type="checkbox" data-i="'+i+'"'+(ck.indexOf(i)>-1?" checked":"")+'><span>'+t+'</span></label></li>'}).join("");
+  $$("input",ul).forEach(function(cb){cb.onchange=function(){var i=+cb.dataset.i,k=ck.indexOf(i);if(cb.checked&&k<0)ck.push(i);if(!cb.checked&&k>-1)ck.splice(k,1);store.set("cx-check",ck);cnt()}});cnt()}
+function cnt(){$("#checkCount").textContent=ck.length+" of "+CL.length+" ready"+(ck.length===CL.length?" — you're prepared. Good luck!":"")}
+
+/* ================= INIT ================= */
+buildKey();buildMock();chapters.forEach(function(c){if(c.id==="ch-11")return;var w=(c.textContent.match(/\S+/g)||[]).length,e=$(".eyebrow",c);if(e)e.textContent+=" · "+Math.max(2,Math.round(w/220))+" min read"});buildQuick();buildNav();buildJumps();addBookmarks();buildIndex();buildCheck();route();
+})();
+</script>
+</body>
+</html>
